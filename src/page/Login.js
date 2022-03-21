@@ -43,7 +43,7 @@ function Login() {
 
     const paperStyle = {
         padding: 40,
-        width: "25%",
+        // width: "25%",
         height: '100%',
         borderRadius: 30,
         margin: 7,
@@ -116,13 +116,13 @@ function Login() {
                         sx={{
                             w: '100%',
                             height: '100vh',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
                         }}
                     >
                         <Grid container spacing={1} display="flex" sx={{ justifyContent: 'center' }}>
-                            <Grid xs={12} align="center">
+                            <Grid item xs={9} sm={6} md={4} lg={3} xl={3} align="center">
                                 <Box style={paperStyle}>
                                     <Grid container spacing={1}>
                                         <Grid item xs={12} >
@@ -269,22 +269,19 @@ function Login() {
                                 </Box>
                             </Grid>
 
+                            <Grid item xs={12} sx={{flexGrow: 1}}></Grid>
 
-                            <Grid item xs={12} md={12} >
+                            <Grid item xs={12} display="flex" justifyContent="center">
                                 <Typography
-                                    variant='subtitle2'
+                                    variant='subtitle1'
                                     align='center'
-                                    color="#4838eb"
-                                    m={5}
+                                    color="#4838eb"                                    
                                     sx={{
                                         position: 'absolute',
-                                        bottom: "0",
-                                        right: "100%",
-                                        // transform: 'translate(0%, 0%)',
-                                        alighItems: "center",
+                                        bottom: 20,                                       
                                     }}
                                 >
-                                    @COPYRIGHT GO GLOBAL SCHOOL | IT DEPARTMENT
+                                    @COPYRIGHT GO GLOBAL TV | IT DEPARTMENT
                                 </Typography>
                             </Grid>
 
