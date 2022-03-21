@@ -7,9 +7,9 @@ export default function ChartBar() {
     // Sample data
     const [view, setView] = useState([])
     const [like, setLike] = useState([])
-    useEffect(async () => {
+    useEffect(async () => {        
         await api.get('api/cms/dashboard/getViewByMonths').then((res) => {
-            setView(res.data.getViewByMonths)
+            setView(res.data.getViewByMonths)            
         })
         await api.get("/api/cms/dashboard/getLikeByMonths").then((res) => {
             setLike(res.data.getLikeByMonths)

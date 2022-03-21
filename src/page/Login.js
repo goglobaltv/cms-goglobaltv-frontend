@@ -25,6 +25,8 @@ import { FormHelperText } from '@mui/material';
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 // import logoTV from "../image/TV Logo-02-02.svg"
+ 
+
 
 function Login() {
     //Alert Message
@@ -45,7 +47,7 @@ function Login() {
     const paperStyle = {
         padding: 40,
         // width: "25%",
-        height: '100%',
+        // height: '100%',
         borderRadius: 30,
         margin: 7,
         backgroundImage: `linear-gradient(to top, #4838eb, #5334e4, #5c31de, #642dd7, #6a29d1)`,
@@ -109,29 +111,36 @@ function Login() {
 
     return (
         <>
+             
+       
             <FormikProvider value={formik}>
                 <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-                    <Box
-                        className="p-0 background-image"
-                        fluid={true}
-                        sx={{
-                            w: '100%',
-                            height: '100vh',
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                        }}
-                    >
-                        <Grid container spacing={1} display="flex" sx={{ justifyContent: 'center' }}>
-                            <Grid item xs={9} sm={6} md={4} lg={3} xl={3} align="center">
-                                <Box style={paperStyle}>
+                <Box
+                    className="p-0 background-image"
+                    fluid={true}
+                    sx={{
+                        w: "100%",
+                        height: "100vh",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
+                >
+                        <Grid 
+                            container
+                            spacing={1}
+                            display="flex"
+                            sx={{ justifyContent: "center" }}
+                        >
+                            <Grid item xs={9} sm={5.5} md={4} lg={2.8} xl={2.3} style={paperStyle}>
+                                
                                     <Grid container spacing={1}>
                                         <Grid item xs={12} >
                                             <Box sx={{ justifyContent: 'center', display: 'flex' }}>
                                                 <img src="/TV Logo-02-02.svg" width={"100"} />
                                             </Box>
                                         </Grid>
-                                        <Grid item xs={12} >
+                                        <Grid item xs={12} sx={{ justifyContent: 'center', display: 'flex' }} >
                                             <Typography variant='subtitle2' sx={{ color: 'white' }} >
                                                 LOGIN TO GLOBAL TV
                                             </Typography>
@@ -140,48 +149,28 @@ function Login() {
                                             <Typography sx={{ color: 'white' }}>
                                                 email
                                             </Typography>
-                                            <TextField
-                                                autoComplete='off'
-                                                id="name"
-                                                value={email}
-                                                placeholder='Enter email'
-                                                {...getFieldProps("email")}
-                                                error={Boolean(touched.email && errors.email)}
-                                                helperText={touched.email && errors.email}
-                                                sx={{                                                 
-                                                    mt: 1,
-                                                    "& .MuiMenuItem-root.Mui-selected": {
-                                                        backgroundColor: "none"
-                                                    },
-                                                    "& .MuiOutlinedInput-input": {
-                                                        backgroundColor: '#fff',
-                                                        borderRadius: 5,
-                                                    },
-                                                    "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-                                                        borderColor: "none",
-                                                        
-                                                    },
-                                                    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-                                                        border: "none",
-                                                        
-                                                    },
-                                                    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {                                                       
-                                                        borderColor: "#fff",
-                                                    },
-                                                }}
-                                                inputProps={{
-                                                    underline: {
-                                                        "&&&:before": {
-                                                            borderBottom: "none"
-                                                        },
-                                                        "&&:after": {
-                                                            borderBottom: "none"
-                                                        }
-                                                    }
-                                                }}
-                                                fullWidth
-                                            />
-
+                                            <FormControl
+                                                sx={{ width: "100%" , mt: 1,}}
+                                                variant="outlined"
+                                            >
+                                                <OutlinedInput
+                                                    id="outlined-adornment-email"
+                                                    sx={{
+                                                        backgroundColor: "#e8f0fe",
+                                                        borderRadius: 6
+                                                    }}
+                                                    placeholder='Enter Email'
+                                                    {...getFieldProps("email")}                                                   
+                                                    error={Boolean(touched.email && errors.email)}
+                                                    helperText={touched.email && errors.email} 
+                                                                                            
+                                                />
+                                                {!!errors.email && (
+                                                    <FormHelperText error id="outlined-adornment-email">
+                                                        {errors.email}
+                                                    </FormHelperText>
+                                                )}  
+                                            </FormControl>
                                         </Grid>
                                         <Grid item xs={12}  >
                                             <Typography sx={{ color: 'white' }} align="left" >
@@ -266,32 +255,24 @@ function Login() {
                                             </Button>
                                         </Grid>
                                     </Grid>
-                                </Box>
+                                 
                             </Grid>
-
-                            <Grid item xs={12} sx={{flexGrow: 1}}></Grid>
-
-                            <Grid item xs={12} display="flex" justifyContent="center">
-                                <Typography
-                                    variant='subtitle1'
-                                    align='center'
-                                    color="#4838eb"                                    
-                                    sx={{
-                                        position: 'absolute',
-                                        // bottom: 10,                                       
-                                    }}
-                                >
+                            
+                        </Grid>
+                     
+                    </ Box >
+                    <Grid container spacing={5} 
+                                sx={{display:"flex", justifyContent: "center" }}>
+                                <Grid xs={8} md={12} lg={12} display="flex" flexDirection="column" justifyContent="buttom">
+                                    <Typography variant="subtitle2" align="center" color="#4838eb" mt={1}>
                                     @COPYRIGHT GO GLOBAL TV | IT DEPARTMENT
-                                </Typography>
-                            </Grid>
-
-
+                                    </Typography>
+                                </Grid>
                         </Grid>
 
-                    </ Box >
                 </Form>
             </FormikProvider>
-
+             
             <SetAlertMessage alert={alert} setAlert={setAlert} message={message} errorMessage={errorMessage} />
         </>
     )
