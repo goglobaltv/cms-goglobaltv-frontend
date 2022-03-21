@@ -154,18 +154,18 @@ function Login() {
                                                     },
                                                     "& .MuiOutlinedInput-input": {
                                                         backgroundColor: '#fff',
-                                                        borderRadius: 3,
+                                                        borderRadius: 6,
                                                     },
                                                     "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
                                                         borderColor: "none",
-                                                        borderRadius: 3,
+                                                        borderRadius: 6,
                                                     },
                                                     "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
                                                         border: "none",
-                                                        borderRadius: 3,
+                                                        borderRadius: 6,
                                                     },
                                                     "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                                                        borderRadius: 3,
+                                                        borderRadius: 6,
                                                         borderColor: "#fff",
                                                     },
                                                 }}
@@ -195,7 +195,7 @@ function Login() {
                                                 <OutlinedInput
                                                     sx={{
                                                         backgroundColor: "#e8f0fe",
-                                                        borderRadius: 3
+                                                        borderRadius: 6
                                                     }}
                                                     id="outlined-adornment-password"
                                                     // label="Password"
