@@ -24,6 +24,7 @@ import { FormHelperText } from '@mui/material';
 
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import logoTV from "../image/TV Logo-02-02.svg"
 
 function Login() {
     //Alert Message
@@ -127,7 +128,7 @@ function Login() {
                                     <Grid container spacing={1}>
                                         <Grid item xs={12} >
                                             <Box sx={{ justifyContent: 'center', display: 'flex' }}>
-                                                <img src="/LogoWhite.svg" width={"100"} />
+                                                <img src={`${logoTV}`} width={"100"} />
                                             </Box>
                                         </Grid>
                                         <Grid item xs={12} >
