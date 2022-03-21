@@ -64,7 +64,7 @@ function Login() {
         validationSchema: SupplySchema,
 
         onSubmit: async (values, { setSubmitting, resetForm }) => {
-            console.log(values);
+            console.log(values , "submit login");
             await api.post(`/api/cms/users/login`, values).then(res => {
                 console.log(res?.data?.data, "after login")
 
@@ -147,26 +147,25 @@ function Login() {
                                                 {...getFieldProps("email")}
                                                 error={Boolean(touched.email && errors.email)}
                                                 helperText={touched.email && errors.email}
-                                                sx={{
-                                                    borderRadius: 5,
+                                                sx={{                                                     
                                                     mt: 1,
                                                     "& .MuiMenuItem-root.Mui-selected": {
                                                         backgroundColor: "none"
                                                     },
                                                     "& .MuiOutlinedInput-input": {
                                                         backgroundColor: '#fff',
-                                                        borderRadius: 5,
+                                                        borderRadius: 3,
                                                     },
                                                     "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
                                                         borderColor: "none",
-                                                        borderRadius: 5,
+                                                        borderRadius: 3,
                                                     },
                                                     "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
                                                         border: "none",
-                                                        borderRadius: 5,
+                                                        borderRadius: 3,
                                                     },
                                                     "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                                                        borderRadius: 5,
+                                                        borderRadius: 3,
                                                         borderColor: "#fff",
                                                     },
                                                 }}
@@ -190,13 +189,13 @@ function Login() {
                                             </Typography>
 
                                             <FormControl
-                                                sx={{ width: "100%" }}
+                                                sx={{ width: "100%" , mt: 1,}}
                                                 variant="outlined"
                                             >
                                                 <OutlinedInput
                                                     sx={{
-                                                        backgroundColor: "#fff",
-                                                        borderRadius: 5
+                                                        backgroundColor: "#e8f0fe",
+                                                        borderRadius: 3
                                                     }}
                                                     id="outlined-adornment-password"
                                                     // label="Password"
@@ -211,7 +210,9 @@ function Login() {
                                                                 aria-label="toggle password visibility"
                                                                 onClick={handleShowPassword}
                                                                 edge="end"
-                                                                sx={{ color: "#472CC9" }}
+                                                                sx={{ 
+                                                                    color: "#472CC9",
+                                                             }}
                                                             >
                                                                 {showPassword ? <VisibilityOff /> : <Visibility />}
                                                             </IconButton>
