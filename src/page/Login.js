@@ -24,7 +24,7 @@ import { FormHelperText } from '@mui/material';
 
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import logoTV from "../image/TV Logo-02-02.svg"
+// import logoTV from "../image/TV Logo-02-02.svg"
 
 function Login() {
     //Alert Message
@@ -128,7 +128,7 @@ function Login() {
                                     <Grid container spacing={1}>
                                         <Grid item xs={12} >
                                             <Box sx={{ justifyContent: 'center', display: 'flex' }}>
-                                                <img src={`${logoTV}`} width={"100"} />
+                                                <img src="/TV Logo-02-02.svg" width={"100"} />
                                             </Box>
                                         </Grid>
                                         <Grid item xs={12} >
@@ -148,25 +148,24 @@ function Login() {
                                                 {...getFieldProps("email")}
                                                 error={Boolean(touched.email && errors.email)}
                                                 helperText={touched.email && errors.email}
-                                                sx={{                                                     
+                                                sx={{                                                 
                                                     mt: 1,
                                                     "& .MuiMenuItem-root.Mui-selected": {
                                                         backgroundColor: "none"
                                                     },
                                                     "& .MuiOutlinedInput-input": {
                                                         backgroundColor: '#fff',
-                                                        borderRadius: 6,
+                                                        borderRadius: 5,
                                                     },
                                                     "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
                                                         borderColor: "none",
-                                                        borderRadius: 6,
+                                                        
                                                     },
                                                     "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
                                                         border: "none",
-                                                        borderRadius: 6,
+                                                        
                                                     },
-                                                    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                                                        borderRadius: 6,
+                                                    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {                                                       
                                                         borderColor: "#fff",
                                                     },
                                                 }}
