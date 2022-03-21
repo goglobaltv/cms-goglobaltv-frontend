@@ -78,12 +78,14 @@ function Login() {
                     setErrorMessage("success");
                     setAlert(true);
                     setTimeout(() => {
-                        navigate("/");
+                        // navigate("/");
+                        window.location.reload();
                     }, 500)
 
                 } else {
                     window.localStorage.removeItem("token");
-                    navigate("/");
+                    window.location.reload();
+                    // navigate("/");
                 }
             })
                 .catch((err) => {
