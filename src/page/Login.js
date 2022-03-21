@@ -278,7 +278,7 @@ function Login() {
                                     color="#4838eb"                                    
                                     sx={{
                                         position: 'absolute',
-                                        bottom: 20,                                       
+                                        bottom: 10,                                       
                                     }}
                                 >
                                     @COPYRIGHT GO GLOBAL TV | IT DEPARTMENT
