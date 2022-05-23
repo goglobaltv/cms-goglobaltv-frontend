@@ -224,7 +224,10 @@ export default function CreateNews() {
                         }
                         if(element.check === "LinkResource"){
                             allRows += `<a href={`+element.text+`} target="_blank">`+element?.text+`</a>`;                          
-                        }                        
+                        }      
+                        if(element.check === "TextCenter"){                            
+                            allRows += `<div style="margin-top:8px;margin-bottom:10px;font-family:Khmer Os Siemreap"><h5 style="text-align: center;">`+element.text+`</h5></div>`;                          
+                        }                   
                         if(element.check === "ImageTwoLayout"){
                             if(i%2 === 0) {
                                 allRows += `<div class="ImageViewTwo"><img class="ImageStyleTwo" src="`+element?.text+`" alt="preview" />`;
@@ -521,6 +524,11 @@ export default function CreateNews() {
                                                             :
                                                             <></>
                                                         }
+
+                                                         
+                                                        {i.check === "TextCenter" ?  <Markup content={`<div style="margin-top:10px;margin-bottom:10px;font-family:Khmer Os Siemreap"><h5 style="text-align: center;">${i.text}</h5></div>`} />  : <></> }
+                                                                
+
 
                                                     </span>
                                                 ))

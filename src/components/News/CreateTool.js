@@ -15,6 +15,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import FormatBoldIcon from '@mui/icons-material/FormatBold';
 import LinkIcon from '@mui/icons-material/Link';
+import FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter';
 
 library.add(faTrash)
 
@@ -68,6 +69,10 @@ export default function CreateTool({ setItemNews }) {
         setCurrentItem({ text: "LinkResource", check: "LinkResource", Fieldtype: "input", key: Date.now() });
     }
 
+    const handleAddTextCenter = () => {
+        setCurrentItem({ text: "TextCenter", check: "TextCenter", Fieldtype: "input", key: Date.now() });
+    }
+    
     const handleAddSubTitle = () => {
         setCurrentItem({ text: "Bold", check: "FontBold",Fieldtype: "input",  key: Date.now() });
     }
@@ -178,6 +183,12 @@ export default function CreateTool({ setItemNews }) {
                             </MiniBox>
                         </Grid>
 
+                        <Grid item xs={6}>
+                            <MiniBox onClick={handleAddTextCenter}  >
+                                <FormatAlignCenterIcon sx={sizeIcon} />
+                                Text Center
+                            </MiniBox>
+                        </Grid>
 
                         {/* <Grid item xs={6}>
                             <MiniBox onClick={handleAddImage} >
