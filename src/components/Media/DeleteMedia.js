@@ -43,7 +43,7 @@ function DeleteMedia({ path, handleCloseNews , setLoading, setAlert, setMessage,
                         variant="h5"
                         sx={{ textAlign: "center", color: "#5B5BF6", fontWeight: "bold" }}
                     >
-                        DELETE Ads
+                        Delete Image
                     </Typography>
                 </Grid>
                 <Grid item xs={12} md={12}>

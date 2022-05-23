@@ -143,8 +143,6 @@ export default function AddUpdateMedai({id , row}) {
     } = formik;
 
     
-    
-
     React.useEffect(async () => {
         await api.get(`/api/cms/adsData/get?page=${page}&limit=${limit}&keyword=${keyword}&location=${location}`).then((res) => {
             console.log(res?.data, "AddUp")

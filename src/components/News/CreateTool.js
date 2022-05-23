@@ -14,6 +14,7 @@ import FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import FormatBoldIcon from '@mui/icons-material/FormatBold';
+import LinkIcon from '@mui/icons-material/Link';
 
 library.add(faTrash)
 
@@ -62,6 +63,11 @@ export default function CreateTool({ setItemNews }) {
     const handleAddTitle = () => {
         setCurrentItem({ text: "SubTitle", check: "SubTitle", Fieldtype: "input", key: Date.now() });
     }
+
+    const handleAddLinkResource = () => {
+        setCurrentItem({ text: "LinkResource", check: "LinkResource", Fieldtype: "input", key: Date.now() });
+    }
+
     const handleAddSubTitle = () => {
         setCurrentItem({ text: "Bold", check: "FontBold",Fieldtype: "input",  key: Date.now() });
     }
@@ -164,6 +170,14 @@ export default function CreateTool({ setItemNews }) {
                                 List
                             </MiniBox>
                         </Grid>
+
+                        <Grid item xs={6}>
+                            <MiniBox onClick={handleAddLinkResource}  >
+                                <LinkIcon sx={sizeIcon} />
+                                Link Resource
+                            </MiniBox>
+                        </Grid>
+
 
                         {/* <Grid item xs={6}>
                             <MiniBox onClick={handleAddImage} >

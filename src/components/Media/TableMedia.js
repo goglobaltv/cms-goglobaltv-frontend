@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Box, IconButton, ImageList, ImageListItem, ImageListItemBar} from '@mui/material';
+import {Box, IconButton, ImageList, ImageListItem, ImageListItemBar, Pagination, Stack} from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -12,8 +12,13 @@ import Paper from '@mui/material/Paper';
 import {visuallyHidden} from '@mui/utils';
 import CircularProgress from "@mui/material/CircularProgress";
 import TableRowMedia from './TableRowMedia'
-import { ref, listAll , getDownloadURL } from "firebase/storage";
-import {storage} from "../../firebase"
+import api from '../../api/posts';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import { useVCAxios } from 'use-vc-axios'
+
+// import { ref, listAll , getDownloadURL } from "firebase/storage";
+// import {storage} from "../../firebase"
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -52,8 +57,21 @@ const headCells = [
         id: "title",
         numeric: false,
         disablePadding: true,
-        label: "title"
-    },{
+        label: "Title"
+    },
+    {
+        id: "imageType",
+        numeric: false,
+        disablePadding: true,
+        label: "Image Type"
+    },
+    {
+        id: "uploadAt",
+        numeric: false,
+        disablePadding: true,
+        label: "Upload At"
+    },
+    {
         id: "icon",
         numeric: true,
         disablePadding: false,
@@ -108,13 +126,58 @@ function EnhancedTableHead(props) {
     );
 }
 
-export default function TableMedia({ loading, setLoading, setAlert, setMessage, setcheckMessage }) {
+export default function TableMedia({ keyword , loading, setLoading, setAlert, setMessage, setcheckMessage }) {
 
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('calories');
-    const [page, setPage] = React.useState(0);
+
+    const [limit,setLimit] = React.useState(10);
+    const [page, setPage] = React.useState(1);    
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [rows,setRows] = React.useState([])
+
+    const [showPage,setShowPage] = React.useState(null);
+    // Avoid a layout jump when reaching the last page with empty rows.
+    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+ 
+    const { data , refetch, error} = useVCAxios({
+        axiosInstance: api,
+        method: 'GET',
+        url: `api/cms/media/get?page=${page}&limit=${limit}&keyword=${keyword}`,
+    })
+
+    React.useEffect( () => {
+        refetch();
+        setShowPage(page);
+    },[page])
+
+    React.useEffect( () => {
+        refetch();
+    },[loading])
+
+    React.useEffect( () => {
+        refetch();
+    },[keyword])
+
+
+    React.useEffect( async () => {       
+        if(data){
+            console.log(data ,"docs")            
+            let rows = [];
+            data?.docs?.forEach(element => {
+                let allrows = {                                               
+                    preview : element?.imageSrc,
+                    title : element?.title,                    
+                    imageType : element?.imageType ,
+                    create_at : element?.createdAt,                  
+                }                
+                rows.push(allrows);            
+            });
+            setRows([...rows]);               
+        }
+        setLoading(false);
+         
+    },[data])
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
@@ -122,58 +185,53 @@ export default function TableMedia({ loading, setLoading, setAlert, setMessage, 
         setOrderBy(property);
     };
 
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
+    const handleChangePage = (event) => {
+        setPage(parseInt(event?.target?.textContent), 10);
     };
 
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10));
         setPage(0);
     };
-    // Avoid a layout jump when reaching the last page with empty rows.
-    const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
+   
+    // const listRef = ref(storage, 'files');  
+    // React.useEffect( () => {
+    //     let rows = [];
+    //     listAll(listRef)
+    //     .then((res) => {           
+    //         res.items.forEach((itemRef) => {
+    //             let pathName = itemRef?._location?.path_ ;
+    //             let ImageName = pathName.split('files/')[1];
 
-    // Firebase Data 
-    // Create a reference under which you want to list
-    const listRef = ref(storage, 'files');   
-    // Find all the prefixes and items.
-    React.useEffect( () => {
-        let rows = [];
-        listAll(listRef)
-        .then((res) => {           
-            res.items.forEach((itemRef) => {
-            
-            //Get Name from File
-                let pathName = itemRef?._location?.path_ ;
-                let ImageName = pathName.split('files/')[1];
-            // All the items under listRef.   
-                getDownloadURL(itemRef)
-                .then((url) => {
-                    // Insert url into an <img> tag to "download"                        
-                    let allrows = {                                               
-                        preview : url ,
-                        title : ImageName,
-                        dimensions : "12x215",
-                        updated : "",
-                        by :"Ratana",
-                        status: "" ,
-                        icon : "" , 
-                        imageType : "" ,
-                        path: pathName,
-                    }                
-                    rows.push(allrows);
-                    setRows([...rows])
-                    // console.log(url)
-                })
-                setLoading(false)
-            });
+    //             getDownloadURL(itemRef)
+    //             .then((url) => {
+                                            
+    //                 let allrows = {                                               
+    //                     preview : url ,
+    //                     title : ImageName,
+    //                     dimensions : "12x215",
+    //                     updated : "",
+    //                     by :"Ratana",
+    //                     status: "" ,
+    //                     icon : "" , 
+    //                     imageType : "" ,
+    //                     path: pathName,
+    //                 }                
+    //                 rows.push(allrows);
+    //                 setRows([...rows])
+                    
+    //             })
+    //             setLoading(false)
+    //         });
            
-        }).catch((error) => {
-            // Uh-oh, an error occurred!
-        });
+    //     }).catch((error) => {
+    //         console.log(error);
+    //     });
 
-    },[loading])    
+    // },[loading])    
+
+    console.log(rows)
 
     if (loading) {
         return (
@@ -185,49 +243,32 @@ export default function TableMedia({ loading, setLoading, setAlert, setMessage, 
 
     return (
         <Box sx={{width: '100%'}}>
-            <Paper 
-                sx={{
-                    width: '100%',
-                    mb: 2,
-                    borderRadius: 5
-                }}
-            >
-               
-
+            <Paper  sx={{ width: '100%', mb: 2, borderRadius: 5 , height:"fit-content"}} >
                 <TableContainer>
-                    <Table 
-                        sx={{minWidth: 750}}
-                        aria-labelledby="tableTitle"
-                        size= 'medium'
-                    >
+                    <Table aria-labelledby="tableTitle" size= 'medium' >
                         <EnhancedTableHead 
                             order={order}
                             orderBy={orderBy}
                             rowCount={rows.length}
                         />
-                        <TableBody> {
-                            stableSort(rows, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
-                                return (
-                                    <TableRowMedia 
-                                        row={row} 
-                                        setLoading={setLoading} 
-                                        setAlert={setAlert}
-                                        setMessage={setMessage}
-                                        setcheckMessage={setcheckMessage}  
-                                    />
-                                );
-                            })
-                        }
+                        <TableBody> 
                             {
-                            emptyRows > 0 && (
-                                <TableRow style={{ height: 53 * emptyRows }}>
-                                    <TableCell colSpan={6}/>
-                                </TableRow>
-                            )
-                        } </TableBody>
+                                rows?.map((row, index) => {
+                                    return (
+                                        <TableRowMedia 
+                                            row={row} 
+                                            setLoading={setLoading} 
+                                            setAlert={setAlert}
+                                            setMessage={setMessage}
+                                            setcheckMessage={setcheckMessage}  
+                                        />
+                                    );
+                                })
+                            }
+                        </TableBody>
                     </Table>
                 </TableContainer>
-                <TablePagination rowsPerPageOptions={
+                {/* <TablePagination rowsPerPageOptions={
                         [5, 10, 25, 100]
                     }
                     component="div"
@@ -236,7 +277,34 @@ export default function TableMedia({ loading, setLoading, setAlert, setMessage, 
                     page={page}
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
-                />
+                /> */}
+
+                <Stack direction="row" spacing={2} justifyContent="center" sx={{padding:1}}>
+
+                    <IconButton
+                        disabled={ data?.prevPage === null ? true : false}
+                        onClick={()=> setPage(data?.prevPage)}
+                    >
+                        <ArrowBackIosNewIcon sx={{width:20}}/>
+                    </IconButton>
+                    <Stack direction="column" spacing={2} justifyContent="center">
+                        <Pagination 
+                            variant="outlined"
+                            color="primary"
+                            page={showPage}
+                            count={data?.totalPages} 
+                            hideNextButton="false"
+                            hidePrevButton="false"
+                            onChange={(e) => handleChangePage(e)}
+                        />
+                    </Stack>                        
+                    <IconButton  
+                        disabled={ data?.nextPage === null ? true : false}
+                        onClick={()=> setPage(data?.nextPage)} 
+                    >
+                        <ArrowForwardIosIcon sx={{width:20}}/>
+                    </IconButton>
+                </Stack>                
 
             </Paper>
 

@@ -20,7 +20,7 @@ export default function Router() {
     const token = window.localStorage.getItem("token");
 
 
-    let pageLogin = useRoutes([{ path: "/", element: <Login /> },]);
+    let pageLogin = <Login />;
 
     let AppPage = useRoutes([
         {
@@ -43,9 +43,8 @@ export default function Router() {
     // return element;
     if (token) {
         return AppPage;
-    } else {
-        return pageLogin;
-    }
-
-
+    } 
+        
+    return pageLogin;
+    
 }

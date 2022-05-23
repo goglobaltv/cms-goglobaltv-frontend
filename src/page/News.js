@@ -58,7 +58,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
         transition: theme.transitions.create('width'),
         width: '100%',
         [theme.breakpoints.up('md')]: {
-            width: '20ch',
+            width: '60ch',
         },
     },
 }));
@@ -85,7 +85,7 @@ export default function News() {
     const [openNews, setOpenNews] = React.useState(false);
     const [page, setPage] = React.useState(1);
     const [limit, setLimit] = React.useState(10);
-    const [keyword, setKeyword] =  React.useState('');
+    const [keyword, setKeyword] =  React.useState("");
     const [category,setCategory] = React.useState('');
     const [news, setNews] = React.useState([])
 
@@ -99,18 +99,29 @@ export default function News() {
         url: `/api/cms/news/getNews?page=${page}&limit=${limit}&keyword=${keyword}&category=${category}`
     })
 
-    React.useEffect(() => {
-        refetch()
-    }, [keyword, category])
+    
 
     React.useEffect(() => {
+        console.log(data, "datafile News")
         if (data) {
-            console.log(data.docs, "file News")
+            // console.log(data.docs, "file News")
             setNews(data.docs)
         }
     }, [data])
 
-    console.log(news , "page News")
+    React.useEffect(() => {
+        refetch()
+    }, [category])
+
+    React.useEffect(() => {
+        refetch()
+    }, [keyword])
+
+    React.useEffect( () => {
+        refetch()
+    },[page])
+
+    // console.log(news , "page News")
 
     return (
         <Box>
@@ -271,16 +282,25 @@ export default function News() {
                                         },
                                     }}
                                     >Sport</Button>
-                                </Grid>
-                          
+                                </Grid>                          
 
                     </Grid>
                 </Grid>
                 {/*call table */}
                 <Grid item xs={12} >
-                    <FormTable news={news} setRefetch={refetch} setLimit={setLimit}/>
+                    <FormTable 
+                        page={page}
+                        setPage={setPage}
+                        news={news} 
+                        setRefetch={refetch} 
+                        setLimit={setLimit}
+                        data={data}
+                    />
                 </Grid>
+
             </Grid>
+
+
             <Modal
                 open={openNews}
                 onClose={handleCloseNews}

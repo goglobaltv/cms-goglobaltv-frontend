@@ -1,12 +1,11 @@
 import * as React from 'react';
-import { Box, Grid, Button, Typography, Stack, TextField, FormControl, InputLabel, Select, MenuItem, IconButton  } from '@mui/material';
+import { Box, Grid, Button, Typography, Stack, TextField  } from '@mui/material';
 import { withStyles, styled, makeStyles } from "@material-ui/styles";
 import { useFormik, Form, FormikProvider } from "formik";
 import * as Yup from "yup";
-import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 import api from '../../api/posts';
-import axios from 'axios';
-import { useVCLazyAxios } from 'use-vc-axios';
+import { useVCLazyAxios } from 'use-vc-axios'
+import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
 // upload image
 import {storage} from "../../../src/firebase"
 import { getDownloadURL , ref  } from "@firebase/storage";
@@ -15,8 +14,6 @@ import { FormControlUnstyledContext } from '@mui/base';
 import { v4 as uuidv4 } from 'uuid';
 import imageCompression from 'browser-image-compression';
 import moment from 'moment';
-import { useNavigate } from 'react-router-dom';
-
 
 //dash border
 const boxStyle = {
@@ -31,19 +28,26 @@ const boxStyle = {
 
 export default function Add_Ads({handleClose , setLoading, setAlert, setMessage, setcheckMessage }) {
   
-    //
-    const navigate = useNavigate();
      // Upload Image
     const [imageFile, setImageFile] = React.useState(null);
-    const [title,setTitle] = React.useState("");
-    const [imageType,setImageType] = React.useState("");
-   
-    // upload Image    
-    const newDate = moment(new Date()).format('MMdYYYY');       
+    //call formik 
+    const SupplySchema = Yup.object().shape({
+        title: Yup.string(),
+    });
+
+    const { data, error, refetch, operation: uploadImg } = useVCLazyAxios({
+        axiosInstance: api,
+        url: `/api/cms/media/upload`,
+        method: 'POST'
+    })
+    
+    const newDate = moment(new Date()).format('MMdYYYY');
+       
+    // upload Image
     const uploadFiles = async ( file ) => {
         //
         if(!file) return;
-        const formData = new FormData();        
+        
         const options = {
             maxSizeMB: 1,
             maxWidthOrHeight: 1920,
@@ -54,64 +58,64 @@ export default function Add_Ads({handleClose , setLoading, setAlert, setMessage,
         const config = {
             headers: { 'content-type': 'multipart/form-data' }
         }
-        
-        let newName = `${uuidv4()}${newDate}${file.name.split('.').pop()}`;        
-        var newFile = new File([compressedFile], `${newName}.png`, { type: 'image/png' });        
-        // console.log(newFile , "New File");        
-        formData.append("image", newFile);
+        let newName = `${uuidv4()}${newDate}${file.name.split('.').pop()}`;
 
-        await axios
-            .post(`${process.env.React_App_UPLOAD_URL}api/tv/upload`, formData , config)
-            .then( async function (response) {
-                // console.log(response?.data);
-                console.log(`https://storage.go-globalschool.com/api${response?.data}` , "link");
+        var newFile = new File([compressedFile], `${newName}.png`, { type: 'image/png' });
 
-                const newValue = {
-                    title: title,
-                    imageType: imageType,
-                    imageName: newFile?.name,
-                    imageSrc: `https://storage.go-globalschool.com/api${response?.data}`,
-                }
-                // console.log(newValue);
+        // const storageRef = ref(storage, `files/${newFile}`);
+        console.log(newFile , "New File");        
 
-                await api.post(`/api/cms/media/upload`, newValue)
-                    .then( res => {
-                        console.log(res?.data?.message)
-                        setAlert(true);
-                        setMessage(res?.data?.message);
-                        handleClose();
+    // tO firbase
+        const storageRef = ref(storage, `files/${newFile.name}`);
+        const uploadTask = uploadBytesResumable(storageRef , compressedFile);
+
+        uploadTask.on("state_changed", (snapshot) => {
+            const prog = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            );
+            // setProgress(prog);
+        }, (err) => console.log(err) , 
+            () => {
+            getDownloadURL(uploadTask.snapshot.ref).then( (url)=> 
+                {                 
+                    console.log(url)   
+                    console.log("upload image successfully!")
+                    handleClose(); 
+                    // setTimeout( () => {
                         setLoading(true);
-                        setcheckMessage("success");
-                        window.location.replace("/media");
-                    })               
-                    .catch(function (error) {
+                        setcheckMessage('success');
+                        setMessage("upload image successfully!");
                         setAlert(true);
-                        setMessage(error);
-                        setcheckMessage("error");
-                        console.log(error);
-                    });
-
-                // handleClose();
-            })   
-        
+                    // },3000)                 
+                    
+                })
+            }
+        );
+    // Eirbase 
         
     };
 
-
-    //call formik 
-    const SupplySchema = Yup.object().shape({
-        title: Yup.string(),
-    });
-
+    React.useEffect( () => {
+        console.log(data, error, 'res')
+        if(data?.success){
+            console.log(data?.message)
+        }
+        console.log(data, error, 'res')
+    },[data])
+  
     const formik = useFormik({
         initialValues: {
             // title: "",
+            // imageType: "",
+            // imageName: "",
+            // imageSrc: "",
+            // status: true,          
         },
 
         validationSchema: SupplySchema,
         onSubmit: async (values, { setSubmitting, resetForm }) => {
-            // console.log(values);
-
+            console.log({ ...values});
+             
             if(imageFile){
                 uploadFiles(imageFile)
                 return
@@ -120,33 +124,50 @@ export default function Add_Ads({handleClose , setLoading, setAlert, setMessage,
         }
     });
 
-    const {  errors, touched, values, isSubmitting , handleSubmit , getFieldProps , setFieldValue, resetForm, } = formik;
+    const {
+        errors,
+        touched,
+        values,
+        isSubmitting,
+        handleSubmit,
+        getFieldProps,
+        setFieldValue,
+        resetForm,
+    } = formik;
 
     return (
-        <FormikProvider value={formik}  sx={{  alignSelf: 'center', }} >
+        <FormikProvider 
+            value={formik} 
+            sx={{ 
+                alignSelf: 'center', 
+                }} 
+        >
             <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
-                <Typography id="modal-modal-title" variant="h5"  
+                <Typography id="modal-modal-title" variant="h4" component="h4"
                     sx={{ textAlign: 'center',  mb: 3 , color:'grey.700',fontWeight: 'bold', }}
                 >
                     Add Media
                 </Typography>
-                <Box style={boxStyle} sx={{ display:"flex" , flexDirection:"column" , justifyContent:"center"}} >
+                 <Box style={boxStyle} sx={{ display:"flex" , flexDirection:"column" , justifyContent:"center"}} >
                     <Grid container spacing={1}>
-                        <Grid item xs={12} display="flex" sx={{ justifyContent: 'center' }} >
+                        <Grid item xs={12}
+                            display="flex"
+                            sx={{ justifyContent: 'center' }}
+                        >
                         { imageFile ? (
                             <>
                                 <Stack 
                                     sx={{ alignItems: "center",  display: imageFile ? "block" : "none",}} 
                                 >     
                                     <TextField
-                                        sx={{ display: "none" }}
-                                        fullWidth
-                                        type="file"
-                                        id="image"
-                                        onChange={(e) => setImageFile(e.target.files[0])}
+                                    sx={{ display: "none" }}
+                                    fullWidth
+                                    type="file"
+                                    id="image"
+                                    onChange={(e) => setImageFile(e.target.files[0])}
                                     />   
                                     <Button>
-                                    <label htmlFor="image">
+                                    <label for="image">
                                         <img
                                             src={URL.createObjectURL(imageFile)} 
                                             style={{ width: "36vh", height: "25vh" }}
@@ -166,7 +187,7 @@ export default function Add_Ads({handleClose , setLoading, setAlert, setMessage,
                                   id="image"
                                   onChange={(e) => setImageFile(e.target.files[0])}
                                 />
-                                <label htmlFor="image">
+                                <label for="image">
                                   <FileUploadOutlinedIcon
                                     sx={{
                                       color: "#5B5BF6",
@@ -190,41 +211,16 @@ export default function Add_Ads({handleClose , setLoading, setAlert, setMessage,
                           )}   
                            
                         </Grid>
-                        
-                </Grid>
-                </Box> 
-
-                <Grid item xs={12} sx={{mt:3}}>    
-                    <Grid container spacing={2} >     
-                        <Grid item xs={7}> 
-                            <TextField label="Title" fullWidth size="small" onChange={(e) => setTitle(e.target.value)}/>
                         </Grid>
-                        <Grid item xs={5}> 
-                            {/* <TextField label="Title" fullWidth size="small" onChange={(e) => setImageType(e.target.value)}/> */}
-                            <FormControl fullWidth>
-                                <InputLabel id="demo-simple-select-label" sx={{mt:-0.5}}>Image Type</InputLabel>
-                                <Select
-                                    size='small'                                                    
-                                    label="Image Type"
-                                    onChange={(e) => setImageType(e.target.value) }
-                                >                                    
-                                    <MenuItem value="thumbnail">Thumbnail</MenuItem>
-                                    <MenuItem value="feature image">Feature Image</MenuItem>
-                                    <MenuItem value="social media">Social Media</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                    </Grid>
-                </Grid>                
-
+                    </Box> 
                 <Grid item xs={12}>
                     <Grid container alignItems='center'spacing={6} >
                         <Grid item xs={6} sx={{display:'flex', justifyContent:'right'}}>
-                            <Box sx={{ textAlign: 'center', mt: 5 }}>                                                             
+                            <Box sx={{ textAlign: 'center', mt: 5 }}>                               
                                 <Button
                                     type="submit"
                                     variant="contained"                                    
-                                    sx={{                                       
+                                    sx={{
                                         width: "20%",
                                         backgroundColor: "#5B5BF6",
                                         "&:hover": {

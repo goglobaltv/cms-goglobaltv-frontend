@@ -9,15 +9,19 @@ const Alert = React.forwardRef(function Alert(props, ref) {
     )
 });
 
-function AlertMessageMedia({ alert, message, setAlert, typeMessage }) {
-    const [open, setOpen] = React.useState(false);
-    // console.log(alert, "testing .....................................")
-    React.useEffect(() => {
+function AlertMessageMedia({ alert, message, setAlert, checkMessage }) {
 
+    const [open, setOpen] = React.useState(false);
+
+    React.useEffect(() => {
         if (alert) {
-            setOpen(alert);
+            setOpen(true);
         }
-        setAlert(false);
+        setTimeout(() => {
+            setOpen(false);
+            setAlert(false);
+        },1200)
+
     }, [alert])
 
 
@@ -30,14 +34,30 @@ function AlertMessageMedia({ alert, message, setAlert, typeMessage }) {
 
     return (
         <>
-            <Stack sx={{ width: '100%' }}>
-                {typeMessage === "success" ?
-                    <>
+            { checkMessage === "success" ?
+                <>                   
+                    <Stack sx={{ width: '100%' }}>                    
                         <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
                             <Alert onClose={handleClose} severity="success" >{message}</Alert>
                         </Snackbar>
-                    </> : <> </>}
-            </Stack>
+                    </Stack>
+                </> 
+            : 
+                null
+            }          
+
+            { checkMessage === "error" ?
+                <>                   
+                    <Stack sx={{ width: '100%' }}>                    
+                        <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+                            <Alert onClose={handleClose} severity="error" >{message}</Alert>
+                        </Snackbar>
+                    </Stack>
+                </> 
+            : 
+                null
+            }   
+
         </>
     )
 }

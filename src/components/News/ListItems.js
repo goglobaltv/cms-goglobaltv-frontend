@@ -28,38 +28,42 @@ function ListItems(props) {
     }
 
     // Get IMage From FireBase
-    const [rows,setRows] = React.useState();
-    // Create a reference under which you want to list
-    const listRef = ref(storage, 'files');   
-    // Find all the prefixes and items.
-    React.useEffect( () => {
-        let rows = [];
-        listAll(listRef)
-        .then((res) => {           
-            res?.items.forEach((itemRef) => {
-            
-            //Get Name from File
-                let pathName = itemRef?._location?.path_ ;
-                let ImageName = pathName.split('files/')[1];
-            // All the items under listRef.   
-                getDownloadURL(itemRef)
-                .then((url) => {
-                    // Insert url into an <img> tag to "download"                        
-                    let allrows = {                                               
-                        preview : url ,
-                        title : ImageName,                        
-                    }                
-                    rows.push(allrows);
-                    setRows([...rows])
-                    // console.log(url)
-                })
-            });
-           
-        }).catch((error) => {
-            // Uh-oh, an error occurred!
-        });
 
-    },[])    
+
+    // const [rows,setRows] = React.useState();
+    // // Create a reference under which you want to list
+    // const listRef = ref(storage, 'files');   
+    // // Find all the prefixes and items.
+    // React.useEffect( () => {
+    //     let rows = [];
+    //     listAll(listRef)
+    //     .then((res) => {           
+    //         res?.items.forEach((itemRef) => {
+            
+    //         //Get Name from File
+    //             let pathName = itemRef?._location?.path_ ;
+    //             let ImageName = pathName.split('files/')[1];
+    //         // All the items under listRef.   
+    //             getDownloadURL(itemRef)
+    //             .then((url) => {
+    //                 // Insert url into an <img> tag to "download"                        
+    //                 let allrows = {                                               
+    //                     preview : url ,
+    //                     title : ImageName,                        
+    //                 }                
+    //                 rows.push(allrows);
+    //                 setRows([...rows])
+    //                 // console.log(url)
+    //             })
+    //         });
+           
+    //     }).catch((error) => {
+    //         // Uh-oh, an error occurred!
+    //     });
+
+    // },[])    
+
+
     // console.log(rows, "ListItem")
     // End Get
 
@@ -127,82 +131,82 @@ function ListItems(props) {
         }
         // End Upload
 
-        // Select Image From Firebase
-        if(item?.Fieldtype === "inputImage"){
-            return <Card className="list" key={item?.key} sx={{ width: "100%", mt: 2, }}>
-                <CardHeader
-                    title={`${item?.check}`}
-                />
-                <CardContent>
-                    <Stack direction="row" spacing={-1} >
-                        {/* <Input                            
-                            multiline
-                            sx={{ width: "80%" }}
-                            type="hidden"
-                            id={item.key}
-                            value={imageUrl}
-                            onChange={(e) => {
-                                console.log(imageUrl);
-                                props.setUpdate(imageUrl, item.key)
-                            }}
-                        /> */}
-                        {imageUrl ?
-                            <>
-                                <img
-                                    src={`${imageUrl}`} 
-                                    style={{ width: "30vh", height: "auto" }}
-                                    alt="preview"
-                                /> 
-                            </>
-                        :
-                            <>
-                                <img
-                                    src={`${defaultImage}`} 
-                                    style={{ width: "30vh", height: "auto" }}
-                                    alt="preview"
-                                /> 
-                            </>
-                        }
+        // // Select Image From Firebase
+        // if(item?.Fieldtype === "inputImage"){
+        //     return <Card className="list" key={item?.key} sx={{ width: "100%", mt: 2, }}>
+        //         <CardHeader
+        //             title={`${item?.check}`}
+        //         />
+        //         <CardContent>
+        //             <Stack direction="row" spacing={-1} >
+        //                 {/* <Input                            
+        //                     multiline
+        //                     sx={{ width: "80%" }}
+        //                     type="hidden"
+        //                     id={item.key}
+        //                     value={imageUrl}
+        //                     onChange={(e) => {
+        //                         console.log(imageUrl);
+        //                         props.setUpdate(imageUrl, item.key)
+        //                     }}
+        //                 /> */}
+        //                 {imageUrl ?
+        //                     <>
+        //                         <img
+        //                             src={`${imageUrl}`} 
+        //                             style={{ width: "30vh", height: "auto" }}
+        //                             alt="preview"
+        //                         /> 
+        //                     </>
+        //                 :
+        //                     <>
+        //                         <img
+        //                             src={`${defaultImage}`} 
+        //                             style={{ width: "30vh", height: "auto" }}
+        //                             alt="preview"
+        //                         /> 
+        //                     </>
+        //                 }
                             
-                        {/* Button Add Image */}
-                        <Typography sx={{ mt: 2, display: "flex", flexDirection: "column", justifyContent: "center", }}>
-                            <Button sx={{color: "Green"}}>
-                                <AddPhotoAlternateTwoToneIcon onClick={() => { 
-                                    handleOpen();   
-                                    setKey(item?.key)                                  
-                                }} 
-                                icon="add" />
-                            </Button>
-                            <Modal
-                                open={open}
-                                onClose={handleClose}
-                                aria-labelledby="modal-modal-title"
-                                aria-describedby="modal-modal-description"
-                            >                                
-                                    <ListImage 
-                                        rows={rows}                                                                                 
-                                        handleClose={handleClose} 
-                                        handleAddImageURL={handleAddImageURL}
-                                        setImageUrl={setImageUrl}
-                                    />                                
-                            </Modal>
+        //                 {/* Button Add Image */}
+        //                 <Typography sx={{ mt: 2, display: "flex", flexDirection: "column", justifyContent: "center", }}>
+        //                     <Button sx={{color: "Green"}}>
+        //                         <AddPhotoAlternateTwoToneIcon onClick={() => { 
+        //                             handleOpen();   
+        //                             setKey(item?.key)                                  
+        //                         }} 
+        //                         icon="add" />
+        //                     </Button>
+        //                     <Modal
+        //                         open={open}
+        //                         onClose={handleClose}
+        //                         aria-labelledby="modal-modal-title"
+        //                         aria-describedby="modal-modal-description"
+        //                     >                                
+        //                             <ListImage 
+        //                                 rows={rows}                                                                                 
+        //                                 handleClose={handleClose} 
+        //                                 handleAddImageURL={handleAddImageURL}
+        //                                 setImageUrl={setImageUrl}
+        //                             />                                
+        //                     </Modal>
 
-                        </Typography>
-                        {/* End Button Add Image */}
+        //                 </Typography>
+        //                 {/* End Button Add Image */}
 
 
-                        <Typography sx={{ mt: 2, display: "flex", flexDirection: "column", justifyContent: "center",  }}>
-                            <Button sx={{color: "red"}}>
-                                <DeleteOutlineIcon onClick={() => {
-                                    props.deleteItem(item?.key)
-                                }} icon="trash" />
-                            </Button>
-                        </Typography>
-                    </Stack>
-                </CardContent>
-            </Card>
-        }
-        // End Selected
+        //                 <Typography sx={{ mt: 2, display: "flex", flexDirection: "column", justifyContent: "center",  }}>
+        //                     <Button sx={{color: "red"}}>
+        //                         <DeleteOutlineIcon onClick={() => {
+        //                             props.deleteItem(item?.key)
+        //                         }} icon="trash" />
+        //                     </Button>
+        //                 </Typography>
+        //             </Stack>
+        //         </CardContent>
+        //     </Card>
+        // }
+        // // End Selected
 
     })
     return (

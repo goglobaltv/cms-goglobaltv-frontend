@@ -14,6 +14,7 @@ import FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import FormatBoldIcon from '@mui/icons-material/FormatBold';
+import LinkIcon from '@mui/icons-material/Link';
 
 library.add(faTrash)
 
@@ -66,6 +67,11 @@ export default function UpdateTool({ setItemNews , itemNews }) {
     const handleAddTitle = () => {
         setCurrentItem({ text: "SubTitle", check: "SubTitle", Fieldtype: "input", key: Date.now() });
     }
+
+    const handleAddLinkResource = () => {
+        setCurrentItem({ text: "LinkResource", check: "LinkResource", Fieldtype: "input", key: Date.now() });
+    }
+
     const handleAddSubTitle = () => {
         setCurrentItem({ text: "Bold", check: "FontBold",Fieldtype: "input",  key: Date.now() });
     }
@@ -169,6 +175,13 @@ export default function UpdateTool({ setItemNews , itemNews }) {
                             </MiniBox>
                         </Grid>
 
+                        <Grid item xs={6}>
+                            <MiniBox onClick={handleAddLinkResource}  >
+                                <LinkIcon sx={sizeIcon} />
+                                Link Resource
+                            </MiniBox>
+                        </Grid>
+
                         {/* <Grid item xs={6}>
                             <MiniBox onClick={handleAddImage} >
                                 <ImageIcon sx={sizeIcon} />
@@ -195,7 +208,8 @@ export default function UpdateTool({ setItemNews , itemNews }) {
             {/* <Button variant="outlined" onClick={handleAddTitle}>Title</Button> */}
             {/* <Button variant="outlined" onClick={handleAddSubTitle}>SubTitle</Button> */}
             <Grid item xs={12}>
-                <ListItems items={item}
+                <ListItems 
+                    items={item}
                     deleteItem={deleteItem}
                     setUpdate={setUpdate}
                     setUpdateImage={setUpdateImage}

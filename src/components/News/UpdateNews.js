@@ -96,7 +96,13 @@ export default function UpdateNews() {
     const [imageUrl,setImageUrl] = React.useState(null);
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);   
+    const handleClose = () => setOpen(false);  
+    
+    const [imageUrlSocial,setImageUrlSocial] = React.useState(null);
+    const [openResource, setOpenResource] = React.useState(false);
+    const handleOpenResource = () => setOpenResource(true);
+    const handleCloseResource = () => setOpenResource(false); 
+    
     const handleAddImageURL = () => {};
 
     //getID News
@@ -108,43 +114,43 @@ export default function UpdateNews() {
         await  setIdNews(params.get("id"));     
     }, [location.search]);
 
+    // Get Image 
+    const [limit,setLimit] = React.useState(10);
+    const [page, setPage] = React.useState(1); 
+    const [keyword,setKeyword] = React.useState("");
 
+    const { data: imageData , refetch } = useVCAxios({
+        axiosInstance: api,
+        method: 'GET',
+        url: `api/cms/media/get?page=${page}&limit=${limit}&keyword=${keyword}`,
+    })
+    	
+    
+    // End Get Image 
+    
     // Get IMage From FireBase
     const [rowsImage,setRowsImage] = React.useState();
     const listRef = ref(storage, 'files');   
 
     React.useEffect( () => {
-        let rows = [];
-        listAll(listRef)
-        .then((res) => {           
-            res.items.forEach((itemRef) => {
-            
-            //Get Name from File
-                let pathName = itemRef?._location?.path_ ;
-                let ImageName = pathName.split('files/')[1];
-            // All the items under listRef.   
-                getDownloadURL(itemRef)
-                .then((url) => {
-                    // Insert url into an <img> tag to "download"                        
-                    let allrows = {                                               
-                        preview : url ,
-                        title : ImageName,                        
-                    }                
-                    rows.push(allrows);
-                    setRowsImage([...rows])
-                    // console.log(url)
-                })
-            });
-           
-        }).catch((error) => {
-            // Uh-oh, an error occurred!
-            console.log(error)
-        });
+        // console.log(imageData,"image")
+        let rows = [];        
+        imageData?.docs.forEach( element => {
+            let allrows = {                                               
+                preview: element?.imageSrc,
+                title:  element?.title,                        
+            }                
+            rows.push(allrows);
+            setRowsImage([...rows])
+        })                      
+               
+    },[imageData])    
+    
+    React.useEffect( () => {
+        refetch();       
+    },[keyword])
 
-    },[])    
-    // console.log(rows, "ListItem")
-    // console.log(rowsImage , "all Image Url")
-    // End Get
+    // ENd THumnial
 
     // ENd THumnial
     
@@ -176,13 +182,7 @@ export default function UpdateNews() {
     
     //call formik 
     const Schema = Yup.object().shape({
-        title: Yup.string().required("Title is required"), 
-        // newsCategory: Yup.string(),
-        // status: Yup.string(),
-        // author: Yup.string(),
-        // thumbnail: Yup.string(),
-        // socialMediaThumbnail: Yup.string(),
-        // article: Yup.string(),       
+        title: Yup.string().required("Title is required"),       
         
     });
 
@@ -220,6 +220,9 @@ export default function UpdateNews() {
                         if(element.check === "ImageOneLayout"){
                             allRows += `<div class="ImageView"><img class="ImageStyle" src="`+element?.text+`" alt="preview" /></div>`;                          
                         }
+                        if(element.check === "LinkResource"){
+                            allRows += `<a href={`+element.text+`} target="_blank">`+element?.text+`</a>`;                          
+                        } 
                         if(element.check === "ImageTwoLayout"){
                             if(i%2 === 0) {
                                 allRows += `<div class="ImageViewTwo"><img class="ImageStyleTwo" src="`+element?.text+`" alt="preview" />`;
@@ -242,8 +245,6 @@ export default function UpdateNews() {
                 }
 
                 
-
-
                 // End Set Article
 
                 const newValue = {
@@ -252,7 +253,7 @@ export default function UpdateNews() {
                     author: userName,
                     title: "<h5>"+values?.title+"</h5>",
                     thumbnail: imageUrl,
-                    socialMediaThumbnail: imageUrl,
+                    socialMediaThumbnail: imageUrlSocial,
                     article: "<div>"+article+"</div>",
                     articleForCMS: itemNews,
                 }     
@@ -280,12 +281,12 @@ export default function UpdateNews() {
                 setFieldValue("title" , res?.data?.title.replace(/<\/?(?!a)(?!p)(?!img)\w*\b[^>]*>/ig, '') );
                 // Thumbnail
                 setImageUrl(res?.data?.thumbnail);
+                // Social Thumnail
+                setImageUrlSocial(res?.data?.socialMediaThumbnail);
                 // Category ID
                 setIdCategory(res?.data?.newsCategory?._id)
                 // Acticle
                 setItemNews(res?.data?.articleForCMS)
-
-
             })                        
         }
     }, [idNews])
@@ -369,6 +370,70 @@ export default function UpdateNews() {
                                         </Modal>
                                     {/* End THumnail */}
                                 </Grid>   
+
+                                <Grid item xs={12}>
+                                    <Typography
+                                        variant='h5'
+                                        sx={{
+                                            textAlign: 'center',
+                                            width: "70%",
+                                            paddingBottom: 2,
+                                            fontWeight: 'bold',
+                                        }}>
+                                        Social Thumbnail
+                                    </Typography>
+
+                                    {/* Button Add Social Thumnal */}
+                                    
+                                        {imageUrlSocial !== null ?
+                                            <>   
+                                            <Box sx={{width:"100%"}}>                                            
+                                                <Button  onClick={() => handleOpenResource()}>
+                                                    <label for="image">                                          
+                                                        <img
+                                                            src={`${imageUrlSocial}`} 
+                                                            style={{ width: "100%", height: "25vh" }}
+                                                            alt="preview"
+                                                        />                                                
+                                                    </label>    
+                                                </Button>
+                                            </Box> 
+                                            </>
+                                        :
+                                            <>
+                                            <Box sx={{width:"100%"}}>
+                                                <Button sx={{color: "Green"}}  onClick={() => handleOpenResource()} >                                        
+                                                        <img
+                                                            src={`${defaultImage}`} 
+                                                            style={{ width: "100%", height: "25vh" }}
+                                                            alt="preview"
+                                                        />                                               
+                                                </Button>
+                                            </Box>
+                                            </>
+                                            
+                                        }          
+                                        
+                                        {/* <Button sx={{color: "Green"}} id="image" onClick={() => handleOpen()} >
+                                            <AddPhotoAlternateTwoToneIcon />
+                                        </Button> */}
+                                        <Modal
+                                            open={openResource}
+                                            onClose={handleCloseResource}
+                                            aria-labelledby="modal-modal-title"
+                                            aria-describedby="modal-modal-description"
+                                        >                                
+                                                <ListImage 
+                                                    setKeyword={setKeyword}
+                                                    rows={rowsImage}                                                                                 
+                                                    handleClose={handleCloseResource}                                                     
+                                                    setImageUrl={setImageUrlSocial}
+                                                    handleAddImageURL={handleAddImageURL}
+                                                />                                
+                                        </Modal>
+                                    {/* End Social THumnail */}
+                                </Grid> 
+
                                 <Grid item xs={12}>
                                     <Typography
                                         variant='h5'
@@ -463,6 +528,15 @@ export default function UpdateNews() {
                                                             :
                                                             <></>
                                                         }
+
+                                                        { i.check === "LinkResource" ?
+                                                                <>  
+                                                                    <a href={`${i.text}`} target="_blank">{i.text}</a>
+                                                                </>
+                                                            :
+                                                            <></>
+                                                        }
+
                                                     </span>
                                                 ))
                                             }

@@ -20,17 +20,27 @@ function TableRowMedia({row , setLoading, setAlert, setMessage, setcheckMessage 
                 tabIndex={-1}
                 key={row.id}
             >
-                <TableCell align="left">
-                    <img src={`${row.preview}`} alt={`${row.title}`} height="200px"/>
+                <TableCell align="left" width="25%">
+                    <img src={`${row.preview}`} alt={`${row.title}`} height="120px"/>
                     {/* <CardMedia 
-                        component="img" height="200" fontSize="10"
+                        component="img" height="100" fontSize="10"
                         image={`${row.preview}`}
                     /> */}
                 </TableCell>
                 <TableCell 
+                    component="th" scope="row" padding="none" width="30%"
+                >
+                    {row?.title} 
+                </TableCell>
+                <TableCell 
                     component="th" scope="row" padding="none"
                 >
-                    {row.title} 
+                    {row?.imageType} 
+                </TableCell>
+                <TableCell 
+                    component="th" scope="row" padding="none"
+                >
+                    {row?.create_at} 
                 </TableCell>
                 
                 <TableCell align="right">

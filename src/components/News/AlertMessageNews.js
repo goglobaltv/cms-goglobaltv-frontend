@@ -34,7 +34,7 @@ function AlertMessageNews({alert, message, setAlert, checkMessage}) {
     return (
         <>
             <Stack spacing={2}>
-              {checkMessage==='success'||checkMessage === 'error'?  
+              {checkMessage==='success' ?  
               <>
                 <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }} >
                     <Alert onClose={handleClose} severity="success">{message}</Alert>                        
@@ -42,6 +42,16 @@ function AlertMessageNews({alert, message, setAlert, checkMessage}) {
              </> : <></>
               
              }
+
+            { checkMessage === 'error'?  
+              <>
+                <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'center' }} >
+                    <Alert onClose={handleClose} severity="error">{message}</Alert>                        
+                </Snackbar> 
+             </> : <></>
+              
+             }
+
 
             </Stack>
         </>

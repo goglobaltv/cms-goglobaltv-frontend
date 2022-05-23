@@ -15,6 +15,9 @@ import { visuallyHidden } from '@mui/utils';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import Tooltip from '@mui/material/Tooltip';
 import NewRow from './CreateNews/NewRow';
+import { Pagination, Stack } from '@mui/material';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 
 function createData(
     _id,
@@ -163,12 +166,18 @@ EnhancedTableHead.propTypes = {
     orderBy: PropTypes.string.isRequired,
 };
 
-export default function EnhancedTable({news , setRefetch, setLimit}) {
+export default function EnhancedTable({  page , data , setPage , news , setRefetch , setLimit }) {
+    //
     const [order, setOrder] = React.useState('asc');
-    const [orderBy, setOrderBy] = React.useState('calories');
-    const [page, setPage] = React.useState(0);
+    const [orderBy, setOrderBy] = React.useState('calories');   
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [rows, setRows] = useState([]);
+
+    const [showPage,setShowPage] = React.useState(null);
+
+    React.useEffect( () => {        
+        setShowPage(page);
+    },[page])
 
     useEffect( async () => {
         await setLimit(rowsPerPage)
@@ -181,11 +190,11 @@ export default function EnhancedTable({news , setRefetch, setLimit}) {
     };
 
     const handleChangePage = (event, newPage) => {
-        setPage(newPage);
+        setPage(parseInt(event?.target?.textContent), 10);
     };
 
     const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
+        setRowsPerPage(parseInt(event.target.value));
         setPage(0);
     };
 
@@ -193,7 +202,8 @@ export default function EnhancedTable({news , setRefetch, setLimit}) {
     const emptyRows =
         page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-    useEffect(() => {
+    
+    useEffect( () => {
         if(news.length !== 0 ){
             let rows = [];
             news.forEach((element) => {
@@ -230,17 +240,18 @@ export default function EnhancedTable({news , setRefetch, setLimit}) {
                             onRequestSort={handleRequestSort}
                         />
                         <TableBody>
-                            {stableSort(rows, getComparator(order, orderBy))
-                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                .map((row, index) => {
+                            {
+                                rows.map((row, index) => {
                                     return (
                                         <NewRow row={row} setRefetch={setRefetch}/>
                                     );
-                                })}
+                                })
+                            }
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <TablePagination
+
+                {/* <TablePagination
                     rowsPerPageOptions={[5, 10, 25, 100]}
                     component="div"
                     count={rows.length}
@@ -248,8 +259,36 @@ export default function EnhancedTable({news , setRefetch, setLimit}) {
                     page={page}
                     onPageChange={handleChangePage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
-                />
+                /> */}
+
+                <Stack direction="row" spacing={2} justifyContent="center" sx={{padding:1}}>
+                    <IconButton
+                        disabled={ data?.prevPage === null ? true : false}
+                        onClick={()=> setPage(data?.prevPage)}
+                    >
+                        <ArrowBackIosNewIcon sx={{width:20}}/>
+                    </IconButton>
+                    <Stack direction="column" spacing={2} justifyContent="center">
+                        <Pagination 
+                            variant="outlined"
+                            color="primary"
+                            page={showPage}
+                            count={data?.totalPages} 
+                            hideNextButton="false"
+                            hidePrevButton="false"
+                            onChange={(e) => handleChangePage(e)}
+                        />
+                    </Stack>                        
+                    <IconButton  
+                        disabled={ data?.nextPage === null ? true : false}
+                        onClick={()=> setPage(data?.nextPage)} 
+                    >
+                        <ArrowForwardIosIcon sx={{width:20}}/>
+                    </IconButton>
+                </Stack> 
+
             </Paper>
+            
         </Box>
     );
 }

@@ -50,6 +50,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
         },
     },
 }));
+
 const gridStyle = {
     justifyContent: 'right',
     display: 'flex'
@@ -58,10 +59,12 @@ const gridStyle = {
 export default function Media() {
 
     const [open, setOpen] = React.useState(false);
-    const [loading,setLoading] = React.useState(true)
-    const [alert, setAlert] = React.useState(false)
-    const [message, setMessage] = React.useState(true)
-    const [checkMessage, setcheckMessage] = React.useState("")
+    const [loading,setLoading] = React.useState(true);
+    const [alert, setAlert] = React.useState(false);
+    const [message, setMessage] = React.useState("");
+    const [checkMessage, setcheckMessage] = React.useState("");
+
+    const [keyword,setKeyword] = React.useState("")
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -76,15 +79,18 @@ export default function Media() {
                     <Divider />
                 </Grid>
                 <Grid item xs={6} >
-                    <Search sx={{
-                        borderRadius: 7,
-                        justifyContent: 'left',
-                        display: 'flex'
-                    }} >
+                    <Search 
+                        sx={{
+                            borderRadius: 7,
+                            justifyContent: 'left',
+                            display: 'flex'
+                        }} 
+                    >
                         <SearchIconWrapper>
                             <SearchIcon sx={{ color: 'grey.400' }} />
                         </SearchIconWrapper>
                         <StyledInputBase
+                            onChange={(e) => setKeyword(e.target.value)}
                             placeholder="Search"
                             inputProps={{ 'aria-label': 'search' }}
                         />
@@ -118,14 +124,16 @@ export default function Media() {
                 </Grid>
                 <Grid item xs={12}>
                     <TableMedia 
-                    loading={loading} 
-                    setLoading={setLoading}
-                    setAlert={setAlert}
-                    setMessage={setMessage}
-                    setcheckMessage={setcheckMessage} 
+                        keyword={keyword}
+                        loading={loading} 
+                        setLoading={setLoading}
+                        setAlert={setAlert}
+                        setMessage={setMessage}
+                        setcheckMessage={setcheckMessage} 
                     />
                 </Grid>
             </Grid>
+
             <AlertMessageMedia alert={alert} setAlert={setAlert} message={message} checkMessage={checkMessage}/>
         </Box>
     )
