@@ -25,6 +25,10 @@ import pic from "../../image/news-default.jpeg"
 import {ThemeProvider} from "@mui/material"
 import { createTheme } from "@mui/material";
 import AlertMessageAds from './AlertMessageAds'
+import { v4 as uuidv4 } from 'uuid';
+import imageCompression from 'browser-image-compression';
+import moment from 'moment';
+import axios from 'axios';
 
 // Style COmpoment
 
@@ -147,35 +151,47 @@ export default function AddUpdateAds({
     })
 
     // upload Image
-    const uploadFiles = (file, newValue) => {
+    const newDate = moment(new Date()).format('MMdYYYY');
+    const uploadFiles = async (file, newValue) => {
         //
-        if (!file) return;
-        const storageRef = ref(storage, `files/${file.name}`);
-        const uploadTask = uploadBytesResumable(storageRef, file);
+        if(!file) return;
+        const formData = new FormData();        
+        const options = {
+            maxSizeMB: 1,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true
+        }
+        const compressedFile = await imageCompression(file, options)
 
-        uploadTask.on("state_changed", (snapshot) => {
-            const prog = Math.round(
-                (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-            );
-            // setProgress(prog);
-        }, (err) => console.log(err),
-            () => {
-                getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-                    putAds({
-                        variables: {
-                            ...newValue,
-                            location: location,
-                            imageName: file?.name,
-                            imageSrc: url,
-                        }
-                    })
+        const config = {
+            headers: { 'content-type': 'multipart/form-data' }
+        }
+        
+        let newName = `${uuidv4()}${newDate}${file.name.split('.').pop()}`;        
+        var newFile = new File([compressedFile], `${newName}.png`, { type: 'image/png' });        
+        // console.log(newFile , "New File");        
+        formData.append("image", newFile);
+
+        await axios
+            .post(`${process.env.React_App_UPLOAD_URL}api/tv/upload`, formData , config)
+            .then( async function (response) {
+                // console.log(response?.data);
+                console.log(`https://storage.go-globalschool.com/api${response?.data}` , "link");
+
+                putAds({
+                    variables: {
+                        ...newValue,
+                        location: location,
+                        imageName: newFile?.name,
+                        imageSrc: `https://storage.go-globalschool.com/api${response?.data}`,
+                    }
                 })
-            }
-        );
+                
+            })
 
     };
 
-    console.log(editData?.location , 'editData')
+    // console.log(editData?.location , 'editData')
 
     // console.log(data, error)
     const formik = useFormik({
@@ -210,13 +226,14 @@ export default function AddUpdateAds({
     React.useEffect(() => {
         
         if(data?.success){
-            
-           handleCloseModal();
-           console.log(data.message, 'success')
+
+            handleCloseModal();
+            console.log(data.message, 'success')
             setRefetch(); 
             setcheckMessage('success');
             setMessage(data?.message)
             setAlert(true);      
+            window.location.replace("/ads"); 
         }
         
     }, [data])

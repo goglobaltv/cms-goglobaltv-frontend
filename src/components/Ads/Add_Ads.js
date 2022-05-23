@@ -25,6 +25,8 @@ import { uploadBytesResumable } from "firebase/storage";
 import { v4 as uuidv4 } from 'uuid';
 import imageCompression from 'browser-image-compression';
 import moment from 'moment';
+import axios from 'axios';
+
 
 const CssTextField = withStyles({
     root: {
@@ -91,8 +93,8 @@ const useStyles = makeStyles({
 
 export default function Add_Ads({setRefetch , handleCloseNews , setMessage ,setcheckMessage , setAlert }) {
 
-   const classes = useStyles();
-   const newDate = moment(new Date()).format('MMdYYYY');
+    const classes = useStyles();
+    const newDate = moment(new Date()).format('MMdYYYY');
     const [page, setPage] = React.useState(1)
     const [limit, setLimit] = React.useState(10)
     const [keyword, setKeyword] = React.useState('')
@@ -122,7 +124,8 @@ export default function Add_Ads({setRefetch , handleCloseNews , setMessage ,setc
             setRefetch();
             setcheckMessage('success');
             setMessage(data?.message)
-            setAlert(true);        
+            setAlert(true);    
+            window.location.replace("/ads");    
         }
 
     },[data])
@@ -131,6 +134,7 @@ export default function Add_Ads({setRefetch , handleCloseNews , setMessage ,setc
     const uploadFiles = async (file,newValue) => {
         //
         if(!file) return;
+        const formData = new FormData();        
         const options = {
             maxSizeMB: 1,
             maxWidthOrHeight: 1920,
@@ -141,38 +145,31 @@ export default function Add_Ads({setRefetch , handleCloseNews , setMessage ,setc
         const config = {
             headers: { 'content-type': 'multipart/form-data' }
         }
-        let newName = `${uuidv4()}${newDate}${file.name.split('.').pop()}`;
+        
+        let newName = `${uuidv4()}${newDate}${file.name.split('.').pop()}`;        
+        var newFile = new File([compressedFile], `${newName}.png`, { type: 'image/png' });        
+        // console.log(newFile , "New File");        
+        formData.append("image", newFile);
 
-        var newFile = new File([compressedFile], `${newName}.png`, { type: 'image/png' });
+        await axios
+            .post(`${process.env.React_App_UPLOAD_URL}api/tv/upload`, formData , config)
+            .then( async function (response) {
+                // console.log(response?.data);
+                console.log(`https://storage.go-globalschool.com/api${response?.data}` , "link");
 
-        // const storageRef = ref(storage, `files/${newFile}`);
-        console.log(newFile , "New File");
-
-        // tO firbase
-        const storageRef = ref(storage, `files/${newFile.name}`);
-        const uploadTask = uploadBytesResumable(storageRef , file);
-
-        uploadTask.on("state_changed", (snapshot) => {
-            const prog = Math.round(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-            );
-            setProgress(prog);
-        }, (err) => console.log(err) , 
-            () => {
-            getDownloadURL(uploadTask.snapshot.ref).then( (url)=> 
-                {                    
-                    createAds({ 
-                        variables: {
-                            ...newValue,
-                            imageName: file?.name,
-                            imageSrc:url,
-                        }
-                    })
+                createAds({ 
+                    variables: {
+                        ...newValue,
+                        imageName: newFile?.name,
+                        imageSrc:`https://storage.go-globalschool.com/api${response?.data}`,
+                    }
                 })
-            }
-        );
+                
+            })
         
     };
+
+    
 
     //call formik 
     const SupplySchema = Yup.object().shape({
