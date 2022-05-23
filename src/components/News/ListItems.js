@@ -44,9 +44,7 @@ function ListItems(props) {
     
     // End Get Image
 
-
     const [rows,setRows] = React.useState();
-
 
     React.useEffect( () => {
         // console.log(imageData,"image")
@@ -186,6 +184,7 @@ function ListItems(props) {
                                 aria-describedby="modal-modal-description"
                             >                                
                                     <ListImage 
+                                        setKeyword={setKeyword}
                                         rows={rows}                                                                                 
                                         handleClose={handleClose} 
                                         handleAddImageURL={handleAddImageURL}
