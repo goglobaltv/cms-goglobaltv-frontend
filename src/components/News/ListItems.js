@@ -38,7 +38,7 @@ function ListItems(props) {
     const { data: imageData , refetch } = useVCAxios({
         axiosInstance: api,
         method: 'GET',
-        url: `api/cms/media/get?page=${page}&limit=${limit}&keyword=${keyword}`,
+        url: `api/cms/media/get?pagination=false&page=${page}&limit=${limit}&keyword=${keyword}`,
     })
     	
     
