@@ -170,10 +170,10 @@ export default function News() {
                                 <Grid item xs={1.5}>
                                     <Button 
                                         className={classes.root} 
-                                        onClick={() => setCategory('622eef8095d605fd2f3c681a')}
+                                        onClick={() => setCategory('62de5094cd8db89a82055cc5')}
                                         sx={{
-                                            background: category === "622eef8095d605fd2f3c681a" ? '#3f50b5'  : '#FAFAFA',
-                                            color: category === "622eef8095d605fd2f3c681a" ? '#fff'  : '#5B5BF6',
+                                            background: category === "62de5094cd8db89a82055cc5" ? '#3f50b5'  : '#FAFAFA',
+                                            color: category === "62de5094cd8db89a82055cc5" ? '#fff'  : '#5B5BF6',
                                             "&:hover": {
                                                 background: '#3f50b5',
                                                 color: '#fff',
@@ -184,10 +184,10 @@ export default function News() {
                                             </Button>
                                 </Grid>
                                 <Grid item xs={1.5}>
-                                    <Button className={classes.root} onClick={() => setCategory('622020fdd0226f986ed9986b')}
+                                    <Button className={classes.root} onClick={() => setCategory('62de4ffacd8db89a82055cc2')}
                                      sx={{
-                                        background: category === "622020fdd0226f986ed9986b" ? '#3f50b5'  : '#FAFAFA',
-                                        color: category === "622020fdd0226f986ed9986b" ? '#fff'  : '#5B5BF6',
+                                        background: category === "62de4ffacd8db89a82055cc2" ? '#3f50b5'  : '#FAFAFA',
+                                        color: category === "62de4ffacd8db89a82055cc2" ? '#fff'  : '#5B5BF6',
                                         "&:hover": {
                                             background: '#3f50b5',
                                             color: '#fff',
@@ -196,10 +196,10 @@ export default function News() {
                                     >Education</Button>
                                 </Grid>
                                 <Grid item xs={2}>
-                                    <Button className={classes.root} onClick={() => setCategory('622eef9295d605fd2f3c681d')} 
+                                    <Button className={classes.root} onClick={() => setCategory('62de50a2cd8db89a82055cc8')} 
                                     sx={{
-                                        background: category === "622eef9295d605fd2f3c681d" ? '#3f50b5'  : '#FAFAFA',
-                                        color: category === "622eef9295d605fd2f3c681d" ? '#fff'  : '#5B5BF6',
+                                        background: category === "62de50a2cd8db89a82055cc8" ? '#3f50b5'  : '#FAFAFA',
+                                        color: category === "62de50a2cd8db89a82055cc8" ? '#fff'  : '#5B5BF6',
                                         "&:hover": {
                                             background: '#3f50b5',
                                             color: '#fff',
@@ -209,10 +209,10 @@ export default function News() {
                                 </Grid>
                            
                                 <Grid item xs={1.5}>
-                                    <Button className={classes.root} onClick={() => setCategory('622013bac24748a67ba9a43b')}
+                                    <Button className={classes.root} onClick={() => setCategory('62de50accd8db89a82055ccb')}
                                     sx={{
-                                        background: category === "622013bac24748a67ba9a43b" ? '#3f50b5'  : '#FAFAFA',
-                                        color: category === "622013bac24748a67ba9a43b" ? '#fff'  : '#5B5BF6',
+                                        background: category === "62de50accd8db89a82055ccb" ? '#3f50b5'  : '#FAFAFA',
+                                        color: category === "62de50accd8db89a82055ccb" ? '#fff'  : '#5B5BF6',
                                         "&:hover": {
                                             background: '#3f50b5',
                                             color: '#fff',
@@ -221,10 +221,10 @@ export default function News() {
                                     >Business</Button>
                                 </Grid>
                                 <Grid item xs={1.5}>
-                                    <Button className={classes.root} onClick={() => setCategory('622eefac95d605fd2f3c6824')}
+                                    <Button className={classes.root} onClick={() => setCategory('62de50c6cd8db89a82055cd1')}
                                     sx={{
-                                        background: category === "622eefac95d605fd2f3c6824" ? '#3f50b5'  : '#FAFAFA',
-                                        color: category === "622eefac95d605fd2f3c6824" ? '#fff'  : '#5B5BF6',
+                                        background: category === "62de50c6cd8db89a82055cd1" ? '#3f50b5'  : '#FAFAFA',
+                                        color: category === "62de50c6cd8db89a82055cd1" ? '#fff'  : '#5B5BF6',
                                         "&:hover": {
                                             background: '#3f50b5',
                                             color: '#fff',
@@ -233,10 +233,10 @@ export default function News() {
                                     >National</Button>
                                 </Grid>
                                 <Grid item xs={1.8}>
-                                    <Button className={classes.root} onClick={() => setCategory('622eefa295d605fd2f3c6821')}
+                                    <Button className={classes.root} onClick={() => setCategory('62de50bbcd8db89a82055cce')}
                                     sx={{
-                                        background: category === "622eefa295d605fd2f3c6821" ? '#3f50b5'  : '#FAFAFA',
-                                        color: category === "622eefa295d605fd2f3c6821" ? '#fff'  : '#5B5BF6',
+                                        background: category === "62de50bbcd8db89a82055cce" ? '#3f50b5'  : '#FAFAFA',
+                                        color: category === "62de50bbcd8db89a82055cce" ? '#fff'  : '#5B5BF6',
                                         "&:hover": {
                                             background: '#3f50b5',
                                             color: '#fff',
@@ -245,10 +245,10 @@ export default function News() {
                                     >International</Button>
                                 </Grid>
                                 <Grid item xs={1.5}>
-                                    <Button className={classes.root} onClick={() => setCategory('622eefb595d605fd2f3c6827')}
+                                    <Button className={classes.root} onClick={() => setCategory('62de50e4cd8db89a82055cda')}
                                     sx={{
-                                        background: category === "622eefb595d605fd2f3c6827" ? '#3f50b5'  : '#FAFAFA',
-                                        color: category === "622eefb595d605fd2f3c6827" ? '#fff'  : '#5B5BF6',
+                                        background: category === "62de50e4cd8db89a82055cda" ? '#3f50b5'  : '#FAFAFA',
+                                        color: category === "62de50e4cd8db89a82055cda" ? '#fff'  : '#5B5BF6',
                                         "&:hover": {
                                             background: '#3f50b5',
                                             color: '#fff',
@@ -260,10 +260,10 @@ export default function News() {
                             
                        
                                 <Grid item xs={1.5}>
-                                    <Button className={classes.root} onClick={() => setCategory('6233f1a096938296db02ad02')}
+                                    <Button className={classes.root} onClick={() => setCategory('62de50cfcd8db89a82055cd4')}
                                     sx={{
-                                        background: category === "6233f1a096938296db02ad02" ? '#3f50b5'  : '#FAFAFA',
-                                        color: category === "6233f1a096938296db02ad02" ? '#fff'  : '#5B5BF6',
+                                        background: category === "62de50cfcd8db89a82055cd4" ? '#3f50b5'  : '#FAFAFA',
+                                        color: category === "62de50cfcd8db89a82055cd4" ? '#fff'  : '#5B5BF6',
                                         "&:hover": {
                                             background: '#3f50b5',
                                             color: '#fff',
@@ -272,10 +272,10 @@ export default function News() {
                                     >Health</Button>
                                 </Grid>
                                 <Grid item xs={1.5}>
-                                    <Button className={classes.root} onClick={() => setCategory('6233f1bf96938296db02ad05')}
+                                    <Button className={classes.root} onClick={() => setCategory('62de50d6cd8db89a82055cd7')}
                                     sx={{
-                                        background: category === "6233f1bf96938296db02ad05" ? '#3f50b5'  : '#FAFAFA',
-                                        color: category === "6233f1bf96938296db02ad05" ? '#fff'  : '#5B5BF6',
+                                        background: category === "62de50d6cd8db89a82055cd7" ? '#3f50b5'  : '#FAFAFA',
+                                        color: category === "62de50d6cd8db89a82055cd7" ? '#fff'  : '#5B5BF6',
                                         "&:hover": {
                                             background: '#3f50b5',
                                             color: '#fff',

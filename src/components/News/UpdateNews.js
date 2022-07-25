@@ -221,7 +221,7 @@ export default function UpdateNews() {
                             allRows += `<div class="ImageView"><img class="ImageStyle" src="`+element?.text+`" alt="preview" /></div>`;                          
                         }
                         if(element.check === "LinkResource"){
-                            allRows += `<a href={`+element.text+`} target="_blank">`+element?.text+`</a>`;                          
+                            allRows += `<a href="`+element.text+`" target="_blank">`+element?.text+`</a>`;                          
                         } 
                         if(element.check === "TextCenter"){                            
                             allRows += `<div style="margin-top:4px;margin-bottom:8px;font-family:Khmer Os Siemreap"><h5 style="text-align: center;">`+element.text+`</h5></div>`;                          

@@ -56,7 +56,7 @@ export default function AddForm() {
                 <Grid item xs={6}>
                     <SelectCategory
                         component={Link}
-                        to={`/CreateNews?id=622020fdd0226f986ed9986b&name="education"`}
+                        to={`/CreateNews?id=62de4ffacd8db89a82055cc2&name="education"`}
                     >
                         <Box sx={alignBottom}>
                             <SchoolIcon sx={sizeIcon} />
@@ -69,7 +69,7 @@ export default function AddForm() {
                 <Grid item xs={6}>
                     <SelectCategory
                         component={Link}
-                        to={`/CreateNews?id=622eef8095d605fd2f3c681a&name="agriculture"`}
+                        to={`/CreateNews?id=62de5094cd8db89a82055cc5&name="agriculture"`}
                     >
                         <Box sx={alignBottom}>
                             <AgricultureIcon sx={sizeIcon} />
@@ -82,7 +82,7 @@ export default function AddForm() {
                 <Grid item xs={6}>
                     <SelectCategory
                         component={Link}
-                        to={`/CreateNews?id=622eef9295d605fd2f3c681d&name="entertainment"`}
+                        to={`/CreateNews?id=62de50a2cd8db89a82055cc8&name="entertainment"`}
                     >
                         <Box sx={alignBottom}>
                             <LiveTvIcon sx={sizeIcon} />
@@ -95,7 +95,7 @@ export default function AddForm() {
                 <Grid item xs={6}>
                     <SelectCategory
                         component={Link}
-                        to={`/CreateNews?id=622013bac24748a67ba9a43b&name="business"`}
+                        to={`/CreateNews?id=62de50accd8db89a82055ccb&name="business"`}
                     >
                         <Box sx={alignBottom}>
                             <BusinessCenterIcon sx={sizeIcon} />
@@ -108,7 +108,7 @@ export default function AddForm() {
                 <Grid item xs={6}>
                     <SelectCategory
                         component={Link}
-                        to={`/CreateNews?id=622eefa295d605fd2f3c6821&name="International"`}
+                        to={`/CreateNews?id=62de50bbcd8db89a82055cce&name="International"`}
                     >
                         <Box sx={alignBottom}>
                             <PublicIcon sx={sizeIcon} />
@@ -121,7 +121,7 @@ export default function AddForm() {
                 <Grid item xs={6}>
                     <SelectCategory
                         component={Link}
-                        to={`/CreateNews?id=622eefac95d605fd2f3c6824&name="national"`}
+                        to={`/CreateNews?id=62de50c6cd8db89a82055cd1&name="national"`}
                     >
                         <Box sx={alignBottom}>
                             <FlagIcon sx={sizeIcon} />
@@ -134,7 +134,7 @@ export default function AddForm() {
                 <Grid item xs={6}>
                     <SelectCategory
                         component={Link}
-                        to={`/CreateNews?id=6233f1a096938296db02ad02&name="health"`}
+                        to={`/CreateNews?id=62de50cfcd8db89a82055cd4&name="health"`}
                     >
                         <Box sx={alignBottom}>
                             <HealthAndSafetyIcon sx={sizeIcon} />
@@ -147,7 +147,7 @@ export default function AddForm() {
                 <Grid item xs={6}>
                     <SelectCategory
                         component={Link}
-                        to={`/CreateNews?id=6233f1bf96938296db02ad05&name="sport"`}
+                        to={`/CreateNews?id=62de50d6cd8db89a82055cd7&name="sport"`}
                     >
                         <Box sx={alignBottom}>
                             <SportsBaseballIcon sx={sizeIcon} />
@@ -161,7 +161,7 @@ export default function AddForm() {
                     <SelectCategory
                         width="200px"
                         component={Link}
-                        to={`/CreateNews?id=622eefb595d605fd2f3c6827&name="technology"`}
+                        to={`/CreateNews?id=62de50e4cd8db89a82055cda&name="technology"`}
                     >
                         <Box sx={alignBottom}>
                             <DesktopMacIcon sx={sizeIcon} />

@@ -33,7 +33,8 @@ export default function Add_Ads({handleClose , setLoading, setAlert, setMessage,
   
     //
     const navigate = useNavigate();
-     // Upload Image
+    
+    // Upload Image
     const [imageFile, setImageFile] = React.useState(null);
     const [title,setTitle] = React.useState("");
     const [imageType,setImageType] = React.useState("");
@@ -167,8 +168,7 @@ export default function Add_Ads({handleClose , setLoading, setAlert, setMessage,
                                   onChange={(e) => setImageFile(e.target.files[0])}
                                 />
                                 <label htmlFor="image">
-                                  <FileUploadOutlinedIcon
-                                    sx={{
+                                  <FileUploadOutlinedIcon sx={{
                                       color: "#5B5BF6",
                                       width: "40px",
                                       height: "40px",
