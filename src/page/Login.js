@@ -68,6 +68,7 @@ function Login() {
 
         onSubmit: async (values, { setSubmitting, resetForm }) => {
             console.log(values , "submit login");
+            
             await api.post(`/api/cms/users/login`, values).then(res => {
                 console.log(res?.data?.data, "after login")
 
@@ -88,12 +89,12 @@ function Login() {
                     // navigate("/");
                 }
             })
-                .catch((err) => {
-                    console.error(err.response.data.message);
-                    setMessage(err.response.data.message);
-                    setErrorMessage("error");
-                    setAlert(true)
-                })
+            .catch((err) => {
+                console.error(err.response.data.message);
+                setMessage(err.response.data.message);
+                setErrorMessage("error");
+                setAlert(true)
+            })
         },
     });
 

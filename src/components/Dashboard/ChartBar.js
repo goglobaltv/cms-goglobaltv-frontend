@@ -7,15 +7,18 @@ export default function ChartBar() {
     // Sample data
     const [view, setView] = useState([])
     const [like, setLike] = useState([])
-    useEffect(async () => {        
-        await api.get('api/cms/dashboard/getViewByMonths').then((res) => {
-            setView(res.data.getViewByMonths)            
-        })
-        await api.get("/api/cms/dashboard/getLikeByMonths").then((res) => {
-            setLike(res.data.getLikeByMonths)
-        })
 
-
+    useEffect(() => {      
+        async function fetchData() {
+            // You can await here
+            await api.get('api/cms/dashboard/getViewByMonths').then((res) => {
+                setView(res.data.getViewByMonths)            
+            })
+            await api.get("/api/cms/dashboard/getLikeByMonths").then((res) => {
+                setLike(res.data.getLikeByMonths)
+            }) 
+        }
+        fetchData();  
     }, [])
 
     // const view = [12000, 14000, 24000, 23000, 13000, 12000, 14000, 24000, 23000, 13000, 23000, 13000];

@@ -252,11 +252,13 @@ export default function AddUpdateAds({
 
 
 
-    React.useEffect(async () => {
-        await api.get(`/api/cms/adsData/get?page=${page}&limit=${limit}&keyword=${keyword}&location=${location}`).then((res) => {
-            console.log(res?.data?.docs[0], "AddUp")
-
-        })
+    React.useEffect( () => { 
+        async function fetchData() {
+            await api.get(`/api/cms/adsData/get?page=${page}&limit=${limit}&keyword=${keyword}&location=${location}`).then((res) => {
+                console.log(res?.data?.docs[0], "AddUp") 
+            })
+        } 
+        fetchData(); 
     }, [])
 
     return (

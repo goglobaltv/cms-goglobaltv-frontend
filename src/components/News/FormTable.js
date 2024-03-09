@@ -179,8 +179,14 @@ export default function EnhancedTable({  page , data , setPage , news , setRefet
         setShowPage(page);
     },[page])
 
-    useEffect( async () => {
-        await setLimit(rowsPerPage)
+    useEffect( () => {
+        async function fetchData() {
+            // You can await here
+            await setLimit(rowsPerPage)
+            // ...
+        }
+        fetchData();
+       
     },[rowsPerPage])
 
     const handleRequestSort = (event, property) => {

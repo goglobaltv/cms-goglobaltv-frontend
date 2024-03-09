@@ -77,6 +77,7 @@ const useStyles = makeStyles((theme) => ({
     }    
 }))
 
+
 export default function CreateNews() {
     // 
     const userName = window.localStorage.getItem("user");
@@ -150,8 +151,9 @@ export default function CreateNews() {
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const [idCategory, setIdCategory] = useState(null);
-    useEffect( async () => {
-        await setIdCategory(params.get("id"));
+
+    useEffect( () => {
+        setIdCategory(params.get("id"));
     }, [location.search]);
 
        
@@ -166,7 +168,7 @@ export default function CreateNews() {
         method: 'POST'
     })
 
-    React.useEffect( async() => {            
+    React.useEffect( () => {            
         console.log(error)
         console.log(data,"after create")
         if(data?.success){

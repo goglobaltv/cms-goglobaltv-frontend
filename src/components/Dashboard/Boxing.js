@@ -76,38 +76,44 @@ function Boxing() {
     const [topLike, setTopLike] = useState([])
     const [doc, setDoc] = useState("");
 
-    useEffect(async () => {
+    useEffect(() => {
 
+       
+        async function fetchData() {
+            // You can await here
+            await api.get('/api/cms/dashboard/getTopViews').then((res) => {
+                console.log(res?.data?.docs, 'Topviews')
+                if(res?.data?.docs) {
+                    setTopView(res?.data?.docs)
+                } else {
+                    setTopView([])
+                }
+    
+            })
+            await api.get('/api/cms/dashboard/getTopLike').then((res) => {
+                console.log(res?.data?.docs , 'boxing')           
+                if(res?.data?.docs) {
+                    setTopLike(res?.data?.docs)
+                } else {
+                    setTopLike({})
+                }
+    
+            })
+    
+            await api.get('/api/cms/dashboard/getTotalView').then((res) => {
+                console.log(res?.data?.totalViews , "totalView")
+                setTotalView(res?.data?.totalViews)
+            })
+
+            await api.get('/api/cms/dashboard/getTotalLike').then((res) => {
+                console.log(res?.data?.totalLike )
+                setTotalLike(res?.data?.totalLike)
+    
+            })
+
+        }
+        fetchData(); 
         
-        await api.get('/api/cms/dashboard/getTopViews').then((res) => {
-            console.log(res?.data?.docs, 'Topviews')
-            if(res?.data?.docs) {
-                setTopView(res?.data?.docs)
-            } else {
-                setTopView([])
-            }
-
-        })
-        await api.get('/api/cms/dashboard/getTopLike').then((res) => {
-            console.log(res?.data?.docs , 'boxing')           
-            if(res?.data?.docs) {
-                setTopLike(res?.data?.docs)
-            } else {
-                setTopLike({})
-            }
-
-        })
-
-        await api.get('/api/cms/dashboard/getTotalView').then((res) => {
-            console.log(res?.data?.totalViews , "totalView")
-            setTotalView(res?.data?.totalViews)
-        })
-
-        await api.get('/api/cms/dashboard/getTotalLike').then((res) => {
-            console.log(res?.data?.totalLike )
-            setTotalLike(res?.data?.totalLike)
-
-        })
 
     }, [])
 

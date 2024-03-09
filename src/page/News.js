@@ -8,7 +8,7 @@ import FormTable from '../components/News/FormTable';
 import { makeStyles } from '@mui/styles';
 import AddForm from '../components/News/AddForm';
 import api from '../api/posts'
-import { useVCAxios } from 'use-vc-axios'
+import { useVCAxios } from 'use-vc-axios';
 
 
 const Search = styled('div')(({ theme }) => ({

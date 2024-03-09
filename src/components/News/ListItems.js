@@ -68,7 +68,7 @@ function ListItems(props) {
     // End Get
 
     const items = props.items;
-    const listItems = items?.map(item => {
+    const listItems = items?.map((item,index) => {
 
         // Add Text
         if (item?.Fieldtype === "input") {
@@ -82,7 +82,7 @@ function ListItems(props) {
                             multiline
                             sx={{ width: "90%" ,fontFamily:"Khmer Os Siemreap"}}
                             type="text"
-                            id={item?.key}
+                            id={`${item?.key}`}
                             value={item?.text}
                             onChange={(e) => {
                                 props.setUpdate(e.target.value, item?.key)

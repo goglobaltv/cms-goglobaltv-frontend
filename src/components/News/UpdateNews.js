@@ -24,8 +24,7 @@ import { ref, listAll , getDownloadURL } from "firebase/storage";
 import {storage} from "../../firebase"
 import ListImage from './ListImage';
 import defaultImage from "../../image/news-default.jpeg"
-import { useVCAxios } from 'use-vc-axios'
-import { async } from "@firebase/util";
+import { useVCAxios } from 'use-vc-axios' 
 import AlertMessageNews from "./AlertMessageNews";
 
 // Style Component
@@ -110,8 +109,11 @@ export default function UpdateNews() {
     const params = new URLSearchParams(location.search);
     const [idNews, setIdNews] = useState(null);
 
-    useEffect( async () => {         
-        await  setIdNews(params.get("id"));     
+    useEffect( () => {         
+        async function fetchData() {
+            await  setIdNews(params.get("id"));  
+        }
+        fetchData()
     }, [location.search]);
 
     // Get Image 
@@ -166,7 +168,7 @@ export default function UpdateNews() {
         method: 'PUT'
     })
 
-    React.useEffect( async() => {            
+    React.useEffect( () => {            
         console.log(data , "after update")
         if(data?.success){
             console.log(data?.message , "success")  
@@ -276,21 +278,25 @@ export default function UpdateNews() {
 
     // Get Data From BackEnd    
     const [editData,setEditData] = React.useState([]);
-    React.useEffect( async () => {
-        if (idNews !== null) {             
-            await api.get(`/api/cms/news/${idNews}`).then( res => {
-                console.log(res?.data)
-                // Title
-                setFieldValue("title" , res?.data?.title.replace(/<\/?(?!a)(?!p)(?!img)\w*\b[^>]*>/ig, '') );
-                // Thumbnail
-                setImageUrl(res?.data?.thumbnail);
-                // Social Thumnail
-                setImageUrlSocial(res?.data?.socialMediaThumbnail);
-                // Category ID
-                setIdCategory(res?.data?.newsCategory?._id)
-                // Acticle
-                setItemNews(res?.data?.articleForCMS)
-            })                        
+    React.useEffect( () => {
+        if (idNews !== null) {        
+            
+            async function fetchData() {
+                await api.get(`/api/cms/news/${idNews}`).then( res => {
+                    console.log(res?.data)
+                    // Title
+                    setFieldValue("title" , res?.data?.title.replace(/<\/?(?!a)(?!p)(?!img)\w*\b[^>]*>/ig, '') );
+                    // Thumbnail
+                    setImageUrl(res?.data?.thumbnail);
+                    // Social Thumnail
+                    setImageUrlSocial(res?.data?.socialMediaThumbnail);
+                    // Category ID
+                    setIdCategory(res?.data?.newsCategory?._id)
+                    // Acticle
+                    setItemNews(res?.data?.articleForCMS)
+                })   
+            }
+            fetchData();                  
         }
     }, [idNews])
 
@@ -332,7 +338,7 @@ export default function UpdateNews() {
                                         {imageUrl !== null ?
                                             <>                                                
                                                 <Button  onClick={() => handleOpen()}>
-                                                    <label for="image">                                          
+                                                    <label htmlFor="image">                                          
                                                         <img
                                                             src={`${imageUrl}`} 
                                                             style={{ width: "36vh", height: "25vh" }}
@@ -360,16 +366,16 @@ export default function UpdateNews() {
                                         </Button> */}
                                         <Modal
                                             open={open}
-                                            onClose={handleClose}
-                                            aria-labelledby="modal-modal-title"
-                                            aria-describedby="modal-modal-description"
-                                        >                                
+                                            onClose={handleClose} 
+                                        >                               
+                                            <Box>
                                                 <ListImage 
                                                     rows={rowsImage}                                                                                 
                                                     handleClose={handleClose}                                                     
                                                     setImageUrl={setImageUrl}
                                                     handleAddImageURL={handleAddImageURL}
-                                                />                                
+                                                />    
+                                            </Box>                             
                                         </Modal>
                                     {/* End THumnail */}
                                 </Grid>   
@@ -392,7 +398,7 @@ export default function UpdateNews() {
                                             <>   
                                             <Box sx={{width:"100%"}}>                                            
                                                 <Button  onClick={() => handleOpenResource()}>
-                                                    <label for="image">                                          
+                                                    <label htmlFor="image">                                          
                                                         <img
                                                             src={`${imageUrlSocial}`} 
                                                             style={{ width: "100%", height: "25vh" }}
@@ -422,17 +428,17 @@ export default function UpdateNews() {
                                         </Button> */}
                                         <Modal
                                             open={openResource}
-                                            onClose={handleCloseResource}
-                                            aria-labelledby="modal-modal-title"
-                                            aria-describedby="modal-modal-description"
-                                        >                                
+                                            onClose={handleCloseResource} 
+                                        >          
+                                            <Box>                      
                                                 <ListImage 
                                                     setKeyword={setKeyword}
                                                     rows={rowsImage}                                                                                 
                                                     handleClose={handleCloseResource}                                                     
                                                     setImageUrl={setImageUrlSocial}
                                                     handleAddImageURL={handleAddImageURL}
-                                                />                                
+                                                />        
+                                            </Box>                         
                                         </Modal>
                                     {/* End Social THumnail */}
                                 </Grid> 
@@ -481,9 +487,9 @@ export default function UpdateNews() {
                                             </Grid>
                                             <Grid item xs={12}>
                                             {
-                                                itemNews.map((i) => (
+                                                itemNews?.map((i,index) => (
 
-                                                    <span>                                                        
+                                                    <span key={index}>                                                        
                                                         {i.check === "SubTitle" ?  <Markup content={`<div style="margin-top:10px;margin-bottom:10px;font-family:Khmer Os Siemreap " ><h4>${i.text}</h4></div>`} />  : <></> }
                                                         {i.check === "FontBold" ? <Markup content={`<span style="font-weight:bold;font-family:Khmer Os Siemreap">${i.text}</span>`} /> : <></>}
                                                         {i.check === "Description" ? <Markup content={`<span style="font-family:Khmer Os Siemreap">${i.text}</span>`} /> : <></>}

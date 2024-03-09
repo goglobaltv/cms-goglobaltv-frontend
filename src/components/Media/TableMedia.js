@@ -160,7 +160,7 @@ export default function TableMedia({ keyword , loading, setLoading, setAlert, se
     },[keyword])
 
 
-    React.useEffect( async () => {       
+    React.useEffect(  () => {       
         if(data){
             console.log(data ,"docs")            
             let rows = [];

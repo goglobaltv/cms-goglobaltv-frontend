@@ -123,19 +123,22 @@ export default function Footer() {
         resetForm,
     } = formik;
 
-    React.useEffect(async () => {
-        await api.get('/api/cms/footer/getFooter').then((res) => {
-            console.log(res?.data[0], "footer")
-            setFieldValue("email", res?.data[0].email)
-            setFieldValue("tell", res?.data[0].tell)
-            setFieldValue("address", res?.data[0].address)
-            setFieldValue("aboutUs", res?.data[0].aboutUs)
-            setFieldValue("facebook", res?.data[0].facebook)
-            setFieldValue("instagram", res?.data[0].instagram)
-            setFieldValue("telegrame", res?.data[0].telegrame)
-            setFieldValue("youtube", res?.data[0].youtube)
-            setFieldValue("tiktok", res?.data[0].tiktok)
-        })
+    React.useEffect( () => { 
+        async function fetchData() {
+            await api.get('/api/cms/footer/getFooter').then((res) => {
+                console.log(res?.data[0], "footer")
+                setFieldValue("email", res?.data[0].email)
+                setFieldValue("tell", res?.data[0].tell)
+                setFieldValue("address", res?.data[0].address)
+                setFieldValue("aboutUs", res?.data[0].aboutUs)
+                setFieldValue("facebook", res?.data[0].facebook)
+                setFieldValue("instagram", res?.data[0].instagram)
+                setFieldValue("telegrame", res?.data[0].telegrame)
+                setFieldValue("youtube", res?.data[0].youtube)
+                setFieldValue("tiktok", res?.data[0].tiktok)
+            })
+        } 
+        fetchData();
     }, [])
 
     return (

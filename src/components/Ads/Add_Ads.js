@@ -116,7 +116,7 @@ export default function Add_Ads({setRefetch , handleCloseNews , setMessage ,setc
         method: 'POST'
     })
 
-    React.useEffect( async() => {
+    React.useEffect( () => {
             
         if(data?.success){
             console.log(data , "when success")
